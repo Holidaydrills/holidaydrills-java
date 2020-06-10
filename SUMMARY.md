@@ -4,9 +4,8 @@
 
 ## Java Versions
 
-* [Java 8](java-versions/java-8.md)
-
-## Java 11
-
-* [Untitled](java-11/untitled.md)
+* [Java 8](java-versions/java-8/README.md)
+  * [Interfaces](java-versions/java-8/interfaces/README.md)
+    * [Interface - Default Methods](java-versions/java-8/interfaces/interface-default-methods.md)
+    * [Interface - Static Methods](java-versions/java-8/interfaces/interface-static-methods.md)
 
