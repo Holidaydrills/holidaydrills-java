@@ -6,45 +6,52 @@ With Java 8 it is possible to define not only abstract methods in interfaces, bu
 
 It's quite simple: you just need to use the `default` keyword in the method declaration and provide an implementation as you would usually do in a Java class.
 
-```text
+```java
 public interface FancyInterface {
-
     default String sayHello() {
-        System.out.println("Hi there");
+        return "Hi there";
     }
 
+    default String sayHelloAgain() {
+        return "Hi there";
+    }
+
+    default String sayGoodBye() {
+        return "Goodbye my friend!";
+    }
 }
 ```
 
 That's actually it. Now this method can be called through the instance of an implementing class even if this method is not implemented by that class:
 
-```text
-public class FancyInterfaceImpl implements FancyInterface{
-    // Nothing here, still you could call the 'sayHello()' method e.g. from another class
+```java
+public class FancyInterfaceImpl implements FancyInterface {
+    // sayHello() is not implemented here. Still it can be called on an instance of FancyInterfaceImpl
 }
 
-public class AnotherClass {
-    public void callFancyMethod() {
-        MyFancyInterfaceImpl fancyInstance = new MyFancyInterfaceImpl();
-        fancyInstance.sayHello(); // Will print 'Hi there'
+class AnotherClass {
+    public void checkFancyInterfaceImpl() {
+        FancyInterfaceImpl fancyInterfaceImplementation = new FancyInterfaceImpl();
+        System.out.println(fancyInterfaceImplementation.sayHello()); // Will print "Hi there"
     }
 }
 ```
 
 If the class that inherits from the `FancyInterface` implements the `sayHello` method then this implementation will be used instead of the default one:
 
-```text
-public class FancyInterfaceImpl implements FancyInterface{
-    // Now the sayHello method is imeplemented in the concrete class
-    public void sayHello() {
-        System.out.println("Hello everyone!");
+```java
+public class FancyInterfaceImpl implements FancyInterface {
+    // sayHelloAgain is overridden and will return now "Hello all! How are you?" instead of "Hi there"
+    @Override
+    public String sayHelloAgain() {
+        return "Hello all! How are you?";
     }
 }
 
-public class AnotherClass {
-    public void callFancyMethod() {
-        MyFancyInterfaceImpl fancyInstance = new MyFancyInterfaceImpl();
-        fancyInstance.sayHello(); // Will print 'Hello everyone!' instead of 'Hi there'
+class AnotherClass {
+    public void checkFancyInterfaceImpl() {
+        FancyInterfaceImpl fancyInterfaceImplementation = new FancyInterfaceImpl();
+        System.out.println(fancyInterfaceImplementation.sayHelloAgain()); // Will print "Hello all! How are you?"
     }
 }
 ```
@@ -67,83 +74,90 @@ When you extend an interface that contains a default implementation of a method 
 
 Example 1: You don't mention the default method
 
-```text
+```java
 public interface FancyInterface {
-
     default String sayHello() {
-        System.out.println("Hi there");
+        return "Hi there";
     }
-
 }
 
-public interface EvenMoreFancyInterface extends FancyInterface {
-    // Nothing here. The original default implementation is still valid.
+public interface EventMoreFancyInterface extends FancyInterface {
+    // The method sayHello() is not overridden here, so the default implementation from FancyInterface is still valid
 }
 
-public class EvenMoreFancyInterfaceImpl implements EvenMoreFancyInterface {
-    // The sayHello method isn't implemented so the original default implementation will be used.
+public class EvenMoreFancyInterfaceImpl implements EventMoreFancyInterface{
+    // The method sayHello() is not implemented here, so the default implementation from FancyInterface is valid
 }
 
-public class AnotherClass {
-    EvenMoreFancyInterfaceImpl fancyInterfaceImpl = new EvenMoreFancyInterfaceImpl();
-    fancyInterfaceImpl.sayHello(); // Will print "Hi there"
+class YetAnotherClass {
+    public void checkEvenMoreFancyInterfaceImpl() {
+        EvenMoreFancyInterfaceImpl evenMoreFancyInterfaceImplementation = new EvenMoreFancyInterfaceImpl();
+        // Will print "Hi there" provided by FancyInterface
+        System.out.println(evenMoreFancyInterfaceImplementation.sayHello());
+    }
 }
 ```
 
 Example 2: You declare the default method in the extending interface
 
-```text
+```java
 public interface FancyInterface {
-
-    default String sayHello() {
-        System.out.println("Hi there");
-    }
-
-}
-
-public interface EvenMoreFancyInterface extends FancyInterface {
-    // No you declare the sayHello method without providing a default imeplementation.
-    String sayHello();
-}
-
-public class EvenMoreFancyInterfaceImpl implements EvenMoreFancyInterface {
-    // As it is now an abstract method you have to implement it.
-    public String sayHello() {
-        System.out.println("Hello over there!");
+    default String sayHelloAgain() {
+        return "Hi there";
     }
 }
 
-public class AnotherClass {
-    EvenMoreFancyInterfaceImpl fancyInterfaceImpl = new EvenMoreFancyInterfaceImpl();
-    fancyInterfaceImpl.sayHello(); // Prints "Hello over there!" as it is not using the default implementation anymore.
+public interface EventMoreFancyInterface extends FancyInterface {
+    // Here the default implementation is overridden by a new default implementation
+    @Override
+    default String sayHelloAgain() {
+        return "I want to say hello again";
+    }
+}
+
+public class EvenMoreFancyInterfaceImpl implements EventMoreFancyInterface{
+    // The method sayHelloAgain() is not implemented here, so the default implementation from FancyInterface is valid
+}
+
+class YetAnotherClass {
+    public void checkEvenMoreFancyInterfaceImpl() {
+        EvenMoreFancyInterfaceImpl evenMoreFancyInterfaceImplementation = new EvenMoreFancyInterfaceImpl();
+        // Will print "I want to say hello again" provided by EvenMoreFancyInterface
+        System.out.println(evenMoreFancyInterfaceImplementation.sayHelloAgain());
+    }
 }
 ```
 
 Example 3: You provide a new default implementation
 
-```text
+```java
 public interface FancyInterface {
-
-    default String sayHello() {
-        System.out.println("Hi there");
-    }
-
-}
-
-public interface EvenMoreFancyInterface extends FancyInterface {
-    // Here a new default implementation is provided.
-    default String sayHello() {
-        System.out.println("Hey!");
+    default String sayGoodBye() {
+        return "Goodbye my friend!";
     }
 }
 
-public class EvenMoreFancyInterfaceImpl implements EvenMoreFancyInterface {
-    // Nothing here. The default implementation of the second interface is valid.
+public interface EventMoreFancyInterface extends FancyInterface {
+    // Here the default implementation is overridden by an abstract method. That means that a class that implements
+    // EventMoreFancyInterface has to provide an implementation.
+    @Override
+    String sayGoodBye();
 }
 
-public class AnotherClass {
-    EvenMoreFancyInterfaceImpl fancyInterfaceImpl = new EvenMoreFancyInterfaceImpl();
-    fancyInterfaceImpl.sayHello(); // Prints "Hey!" which is the default implementation of the second interface.
+public class EvenMoreFancyInterfaceImpl implements EventMoreFancyInterface{
+    // Must be implemented here since EvenMoreFancyInterfaceImpl declares the method as abstract
+    @Override
+    public String sayGoodBye() {
+        return "See you in a while, crocodile!";
+    }
+}
+
+class YetAnotherClass {
+    public void checkEvenMoreFancyInterfaceImpl() {
+        EvenMoreFancyInterfaceImpl evenMoreFancyInterfaceImplementation = new EvenMoreFancyInterfaceImpl();
+        // Will print "See you in a while, crocodile!" provided by EvenMoreFancyInterfaceImpl
+        System.out.println(evenMoreFancyInterfaceImplementation.sayGoodBye());
+    }
 }
 ```
 
@@ -155,7 +169,4 @@ You're planning to open your first online shop in Finland. You've already implem
 * A [FormValidatorFIN](https://github.com/dholde/holidaydrills-Java8/blob/master/src/com/holidaydrills/interfaces/webshopexample/FormValidatorFIN.java) which provides an interface for your Finnish online shop \(later other country specific interfaces can follow\)
 * The [FormValidatorFINImpl](https://github.com/dholde/holidaydrills-Java8/blob/master/src/com/holidaydrills/interfaces/webshopexample/FormValidatorFINImpl.java) class which implements the [FormValidatorFIN](https://github.com/dholde/holidaydrills-Java8/blob/master/src/com/holidaydrills/interfaces/webshopexample/FormValidatorFIN.java) interface
 * The [WebShopCheckout](https://github.com/dholde/holidaydrills-Java8/blob/master/src/com/holidaydrills/interfaces/webshopexample/WebShopCheckout.java) class which is responsible for the whole checkout process. As one of the steps of the checkout process it performs the validation by using the 
-
-  [CheckoutFormValidator](https://github.com/dholde/holidaydrills-Java8/blob/master/src/com/holidaydrills/interfaces/webshopexample/CheckoutFormValidator.java) 
-
-
+* [FormValidatorFINImpl](https://github.com/dholde/holidaydrills-Java8/blob/master/src/com/holidaydrills/interfaces/webshopexample/CheckoutFormValidator.java)
