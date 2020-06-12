@@ -2,7 +2,7 @@
 
 With Java 8 it is possible to define not only abstract methods in interfaces, but you can also provide methods with a default implementation.
 
-#### How does it work?
+### How does it work?
 
 It's quite simple: you just need to use the `default` keyword in the method declaration and provide an implementation as you would usually do in a Java class.
 
@@ -56,17 +56,17 @@ class AnotherClass {
 }
 ```
 
-### Why should I use it?
+## Why should I use it?
 
 Suppose you provide an interface that is implemented by a lot of other classes. Now you want to add additional feature to your interface and you would do that by adding another method.  
 Imagine what would happen if you just add an additional abstract method to the interface. Every implementing class would need to adopt by implementing that additional method.  
 Luckily you can avoid that by declaring the new method as a `default` one and provide an implementation right in your interface. All classes implementing that interface can now stay unchanged and just use the default implementation you provided. As soon as they need or want to have an own implementation of that method they could just implement is \(as in our second example above\).
 
-### Good to know
+## Good to know
 
-#### What happens when interfaces with default implementations get extended?
+### What happens when interfaces with default implementations get extended?
 
-When you extend an interface that contains a default implementation of a method there are three possibilities: 
+When you extend an interface that contains a default implementation of a method there are three possibilities:
 
 1. You just don't mention the method at all: Then the default implementation is still valid 
 2. You declare the default method in the extending interface \(that means you provide an abstract method with the same name\): That makes the method abstract so that an implementing class must provide an implementation. 
@@ -161,7 +161,7 @@ class YetAnotherClass {
 }
 ```
 
-### Use Case
+## Use Case
 
 You're planning to open your first online shop in Finland. You've already implemented the product catalogue, some fancy search capabilities and the user management. But as you want to earn money you need some kind of checkout process. You think about what's needed and the first step would be to make sure, that customers provide their information in the correct form. So you decide to implement a validation for the checkout form. In order to keep the code clean and make it reusable in case you need to serve some other online shops with slightly different requirements you decide to have the following structure:
 
@@ -170,3 +170,4 @@ You're planning to open your first online shop in Finland. You've already implem
 * The [FormValidatorFINImpl](https://github.com/dholde/holidaydrills-Java8/blob/master/src/com/holidaydrills/interfaces/webshopexample/FormValidatorFINImpl.java) class which implements the [FormValidatorFIN](https://github.com/dholde/holidaydrills-Java8/blob/master/src/com/holidaydrills/interfaces/webshopexample/FormValidatorFIN.java) interface
 * The [WebShopCheckout](https://github.com/dholde/holidaydrills-Java8/blob/master/src/com/holidaydrills/interfaces/webshopexample/WebShopCheckout.java) class which is responsible for the whole checkout process. As one of the steps of the checkout process it performs the validation by using the 
 * [FormValidatorFINImpl](https://github.com/dholde/holidaydrills-Java8/blob/master/src/com/holidaydrills/interfaces/webshopexample/CheckoutFormValidator.java)
+

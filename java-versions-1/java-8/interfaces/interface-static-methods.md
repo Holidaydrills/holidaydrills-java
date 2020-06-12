@@ -2,7 +2,7 @@
 
 With Java 8 it is possible to define static methods in interfaces.
 
-#### How does it work?
+## How does it work?
 
 Just declare a method as static and provide an implementation as you would do in a Java class:
 
@@ -29,12 +29,12 @@ public class myFancyClass {
 }
 ```
 
-#### Why should I use it?
+## Why should I use it?
 
 * Static interface methods can be used to provide utility methods
 * When you don't want the implementing class to override a method a static method can be used
 
-#### Use case
+## Use case
 
 You're planning to open your first online shop. You've already implemented the product catalogue, some fancy search capabilities and the user management. Now you got to the point where you create the checkout process. You've already implemented the checkout form and the validation for the user input. E.g. in case someone enters a zip code that isn't valid the user gets an error. What's still missing is a way to provide a consistent error message.
 
