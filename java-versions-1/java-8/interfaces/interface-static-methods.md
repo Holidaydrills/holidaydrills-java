@@ -7,9 +7,9 @@ With Java 8 it is possible to define static methods in interfaces.
 Just declare a method as static and provide an implementation as you would do in a Java class:
 
 ```java
-public interface MyFancyInterface {
-    static void myFancyStaticMethod() {
-        System.out.println("This is a static interface method");
+public interface FancyInterface {
+    static String giveMeTheDescriptionOfThisInterface() {
+        return "This is a Fancy interface which provides methods to say hello and to say goodbye:)";
     }
 }
 ```
@@ -17,15 +17,11 @@ public interface MyFancyInterface {
 You can call such static interface methods only within the interface itself or through the interface. What that means is, that you can't call a static interface method through an instance of a class that is implementing the interface:
 
 ```java
-public class myFancyClass {
-
-    public void doSomethingFancy() {
-        //As you see below, you call the method through the interface itself. 
-        //You don't need a class that implements the interface in order to call it.
-        //In fact, it's even not possible to call the method through the instance of a class implementing the interface.
-        MyFancyInterface.myFancyStaticMethod();
+public class FancyInterfaceImpl implements FancyInterface {
+    public String getFancyInterfaceInfo() {
+        // The static method is called directly on the FancyInterface 
+        return FancyInterface.giveMeTheDescriptionOfThisInterface();
     }
-
 }
 ```
 
