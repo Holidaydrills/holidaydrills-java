@@ -26,7 +26,7 @@ public class FancyInterfaceImpl implements FancyInterface {
 }
 ```
 
-## Why should I use it?
+## What is it good for?
 
 * Static interface methods can be used to provide utility methods
 * When you don't want the implementing class to override a method a static method can be used

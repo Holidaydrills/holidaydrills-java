@@ -57,11 +57,10 @@ class AnotherClass {
 }
 ```
 
-## Why should I use it?
+## What is it good for?
 
-Suppose you provide an interface that is implemented by a lot of other classes. Now you want to add additional feature to your interface and you would do that by adding another method.  
-Imagine what would happen if you just add an additional abstract method to the interface. Every implementing class would need to adopt by implementing that additional method.  
-Luckily you can avoid that by declaring the new method as a `default` one and provide an implementation right in your interface. All classes implementing that interface can now stay unchanged and just use the default implementation you provided. As soon as they need or want to have an own implementation of that method they could just implement is \(as in our second example above\).
+* With interface default methods you can extend your existing interfaces without breaking the users of it.  
+ (Remember: a class that implements an interface must also implement all methods of that interface that are abstract. By providing a default implementation the implementing class can just use the default implementation without the need to implement that mehtod itself)
 
 ## Good to know
 
