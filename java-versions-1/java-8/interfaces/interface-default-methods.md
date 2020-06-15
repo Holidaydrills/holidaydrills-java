@@ -1,6 +1,7 @@
 # Interface - Default Methods
 
-With Java 8 it is possible to define not only abstract methods in interfaces, but you can also provide methods with a default implementation.
+With Java 8 it is possible to define not only abstract methods in interfaces, but you can also provide methods with a default implementation.  
+You can find the examples used below in the [holidaydrills-java8 repository](https://github.com/dholde/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/simpleexample).
 
 ### How does it work?
 

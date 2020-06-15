@@ -1,6 +1,7 @@
 # Interface - Static Methods
 
-With Java 8 it is possible to define static methods in interfaces.
+With Java 8 it is possible to define static methods in interfaces.  
+You can find the examples used below in the [holidaydrills-java8 repository](https://github.com/dholde/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/simpleexample).
 
 ## How does it work?
 
