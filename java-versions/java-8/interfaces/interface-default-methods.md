@@ -3,7 +3,7 @@
 With Java 8 it is possible to define not only abstract methods in interfaces, but you can also provide methods with a default implementation.  
 You can find the examples used below in the [holidaydrills-java8 repository](https://github.com/dholde/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/simpleexample).
 
-### How does it work?
+## How does it work?
 
 It's quite simple: you just need to use the `default` keyword in the method declaration and provide an implementation as you would usually do in a Java class.
 
@@ -60,7 +60,7 @@ class AnotherClass {
 ## What is it good for?
 
 * With interface default methods you can extend your existing interfaces without breaking the users of it.  
- (Remember: a class that implements an interface must also implement all methods of that interface that are abstract. By providing a default implementation the implementing class can just use the default implementation without the need to implement that mehtod itself)
+ (Remember: a class that implements an interface must also implement all methods of that interface that are abstract. By providing a default implementation the implementing class can just use the default implementation without the need to implement that method itself)
 
 ## Good to know
 
