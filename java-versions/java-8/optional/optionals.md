@@ -21,13 +21,13 @@ Optional<String> optional = Optional.empty()
 ```
 2. Create an Optional containing an object
 ```
-String aString = "Hello there";
+// If aString is null, you get a NullPointerException here
 Optional<String> optional = Optional.of(aString);
 ```
 3. Create an Optional with an object that could potentially be null
 ```
-String aString = getStringThatPotentiallyIsNull();
-Optional<String> optional = Optional.ofNullable(aString);
+// If the string is null an empty Optional is created (no NullpointerException here)
+Optional<String> optional = Optional.ofNullable(aStringThatIsPotentiallyNull);
 ```
 
 ### Retrieve the value that is wrapped by an Optional
