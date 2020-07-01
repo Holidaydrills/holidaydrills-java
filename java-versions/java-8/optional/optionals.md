@@ -82,8 +82,74 @@ exception that is provided by the Supplier function.
 ```
 
 ### Retrieve values from nested objects
-For more complex cases, like retrieving some value from a nested object in a safe way the Optional's `map` function 
-can be used:
+For more complex cases, like retrieving some value from a nested object in a safe way the Optional's `map` and `flatMap`
+methods can be used:
+* The `map` method applies a mapper function to the value that is inside the Optional and returns the value wrapped
+again in an Optional. If there is no value, then an empty Optional is returned
+* The `flatMap` method has an additional step. It first unwraps the value inside the Optional and then applies the 
+ the mapper function to it if the value does exist. Otherwise it also returns an empty Optional. The `FlatMap` method is
+ handy when you are dealing with fields that are already wrapped by an Optional.  
+ 
+Let's have some examples to demonstrate the methods:  
+Assume we have a `Customer` class that has two fields: `String firstName` which is a string and 
+`Optional<String> lastName` which is an Optional wrapping a string.
+```
+public class Customer {
+    private String firstName;
+    private Optional<String> lastName;
+
+    public String getFirstName() {
+      return firstName;
+    }
+    public Optional<String> getLastName() {
+      return lastName;
+    }
+}
+```
+#### Map
+
+If we want to access the `firstName` in a save way we can use the `map()` method:  
+
+```
+    public String useMapOnNonOptionalField(Customer customer) {
+        Optional<Customer> customerOptional = Optional.ofNullable(customer);
+        Optional<String> firstNameOptional = customerOptional.map(Customer::getFirstName);
+        String firstName = firstNameOptional.orElse("First name is not available");
+        return firstName;
+    }
+```
+* The customer object is first wrapped in an Optional, as we don't know if customer is null
+* Then we apply the `map()` method which returns the `firstName` field wrapped in an Optional
+* Then we use the `orElse()` method to retrieve the `firstName`.
+
+Now we want to get the `lastName` of the customer. Remember, this field is already an Optional of type String. What
+happens when we use the `map()` method here?
+
+```
+    public String useMapOnOptionalField(Customer customer) {
+        Optional<Customer> customerOptional = Optional.ofNullable(customer);
+        Optional<Optional<String>> lastNameOptionalOfOptional = customerOptional.map(Customer::getLastName);
+        Optional<String> lastNameOptional = lastNameOptionalOfOptional.get();
+        String lastName = lastNameOptional.orElse("Last name is not available");
+        return lastName;
+    }
+```
+Here we would have an additional step as the `map()` method wraps the result into an Optional. In this case this 
+would result in an Optional of an Optional. For a better understanding the steps above explained:
+* The customer object is first wrapped in an Optional, as we don't know if customer is null
+* Then we apply the `map()` method which returns the `lastName` field wrapped in an Optional. As the field was already
+an Optional before, it is now an Optional of an Optional
+* We apply the `get()` method to retrieve the inner Optional which holds the `lastName`
+* Then we apply the `orElse()` method to get the `lastName` string as a result  
+
+As you see it is quite of an overhead when using the `map()` method on fields that are already wrapped in an Optional.
+A better solution for that is to use the `flatMap()` method. 
+
+#### FlatMap
+//TODO: FlatMap
+
+
+
 ```
     // Will return the 'country' field of the customer if customer and address and country are not null.
     // Otherwise returns the string "Country is null"
