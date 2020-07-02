@@ -81,7 +81,7 @@ exception that is provided by the Supplier function.
     }
 ```
 
-### Retrieve values from nested objects
+### map() and flatMap() - Retrieve values from nested objects 
 For more complex cases, like retrieving some value from a nested object in a safe way the Optional's `map` and `flatMap`
 methods can be used:
 * The `map` method applies a mapper function to the value that is inside the Optional and returns the value wrapped
@@ -106,9 +106,14 @@ public class Customer {
     }
 }
 ```
-#### Map
+#### map()
 
-If we want to access the `firstName` in a save way we can use the `map()` method:  
+If we want to access the `firstName` in a save way we can use the `map()` method. 
+It does the following:
+1. It takes a mapper function as a parameter
+1. It checks if the Optional contains a value. If not, it returns an empty Optional. If yes then ...
+1. ... it applies the mapper function to the value that is wrapped by the Optional
+1. It wraps the value in an Optional (after the mapping function was applied) and returns that Optional
 
 ```
     public String useMapOnNonOptionalField(Customer customer) {
@@ -145,10 +150,27 @@ an Optional before, it is now an Optional of an Optional
 As you see it is quite of an overhead when using the `map()` method on fields that are already wrapped in an Optional.
 A better solution for that is to use the `flatMap()` method. 
 
-#### FlatMap
-//TODO: FlatMap
+#### flatMap()
+In case a value that we want to retrieve is already wrapped in an Optional, we can use the `flatMap()` method. 
+It does the following:
+1. It takes a mapper function as a parameter
+1. It checks if the Optional contains a value. If not, it returns an empty Optional. If yes then ...
+1. ... it applies the mapper function to the value that is wrapped by the Optional 
+(the value has to be an Optional itself)
+1. It returns the value (which is in that case already and Optional) after the mapping function was applied  
 
+#### Difference between map() and flatMap()
+As you can see `map()` and `flatMap` differ in the type they expect as a result by the mapper function (step 3.) and
+ they differ in the way they handle the value before returning it (step 4.):
+* `map`: In step 3. `map()` the mapper can return any type as in step 4. the value is packed into an Optional and returned. 
+That ensures that the return type is always an Optional.
+* `flatMap`: In step 3. `flatMap()` expects the mapper function to return an Optional. This is because in step 4. the 
+value **is not** wrapped in an Optional. So the value already has to be an Optional sothat `flatMap` can return it.
 
+#### Retrieve value of a nested object with map()
+You can use `map()` and `flatMap()` to retrieve values form nested objects in a save way. The example below shows
+how `map()` is applied twice in order to first access the address of a customer and then in a second step the country
+field (you can find the implementation of the customer class at the bottom). 
 
 ```
     // Will return the 'country' field of the customer if customer and address and country are not null.
@@ -162,7 +184,28 @@ A better solution for that is to use the `flatMap()` method.
         return country;
     }
 ``` 
-Without using Optional the same logic would result in some ugly nested if statements:
+This is what happens:
+1. The customer is wrapped in an Optional as it could be null
+1. `map()` is called on the customerOptional  
+   * The `map()` method checks if the Optional contains a value. If it does not contain a value it returns an empty 
+   Optional (see [map() step 2](#map(\))
+   * If it contains a value, the mapper function is applied to that value (the value in that case is the customer and 
+   the mapper function it `getAddress()`)
+   * The result of the mapper function is wrapped in an Optional ([see map() step 3 and 4](#map\(\)))
+ If it contains a value it wraps the value (in this case the address objects) in an 
+Optional and returns it (see [map() step 3 and 4](#map(\))
+1. Now the `map()` method is applied to the Optional containing the address (this is the Optional returned in the last
+step)
+   * The `map()` method checks if the Optional contains a value (the country). If it does not contain a value it 
+   returns an empty Optional
+   * If it contains a value, the mapper function is applied to that value (the value in that case is the address and 
+     the mapper function it `getCountry()`)
+   * The result of the mapper function (which is either null or a string with the country name) is wrapped in an 
+   Optional and returned
+1. The `orElse` method is called on the Optional that is returned by the last step. If it contains a value, then the 
+value is returned. Otherwise "Country is null" is returned.
+
+Without using Optional the same logic would result in less readable nested if statements:
 ```
     public String avoidNullPointerWithoutOptionals(Customer customer) {
         if (customer != null && customer.getAddress() != null && customer.getAddress().getCountry() != null) {
@@ -176,4 +219,31 @@ Without using Optional the same logic would result in some ugly nested if statem
         }
         return "Country is null";
     }
+```
+
+**Here you see the customer class that is used in the example below** 
+([here you can find the complete code](https://github.com/Holidaydrills/holidaydrills-Java8/blob/master/src/main/java/com/holidaydrills/optional/Customer.java):
+```
+public class Customer {
+
+    private String firstName;
+    private Optional<String> lastName;
+    private Address address;
+
+    // Constructors are implemented here ...
+    // Getters and setters are implemented here ...
+
+    class Address {
+
+        private String country;
+        private String city;
+        private String street;
+        private String houseNumber;
+
+    // Constructors are implemented here ...
+    // Getters and setters are implemented here ...
+        
+    }
+
+}
 ```

@@ -1,7 +1,7 @@
 # Interface - Static Methods
 
 With Java 8 it is possible to define static methods in interfaces.  
-You can find the examples used below in the [holidaydrills-java8 repository](https://github.com/dholde/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/simpleexample).
+You can find the examples used below in the [holidaydrills-java8 repository](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/simpleexample).
 
 ## How does it work?
 
@@ -43,7 +43,7 @@ You think about the problem and come to the conclusion that a static interface m
 
 You can explore the sample code on this use case in the [holidaydrills-java8 repository](https://github.com/dholde/holidaydrills-Java8) under the [src/com/holidaydrills/interfaces/webshopexample ](https://github.com/dholde/holidaydrills-Java8/tree/master/src/com/holidaydrills/interfaces/webshopexample)directory. There you will find:
 
-> * a [FormValidator](https://github.com/dholde/holidaydrills-Java8/blob/master/src/com/holidaydrills/interfaces/webshopexample/FormValidator.java) interface which contains a static utility method which provides an error message. 
-> * a [WebshopCheckout](https://github.com/dholde/holidaydrills-Java8/blob/master/src/com/holidaydrills/interfaces/webshopexample/WebShopCheckout) class which which [calls the static method](https://github.com/dholde/holidaydrills-Java8/blob/51f3517984e303b1cae0697deb032303a71f1cd5/src/com/holidaydrills/interfaces/webshopexample/WebShopCheckout.java#L42) in order to return a proper error message
+> * a [FormValidator](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/webshopexample/FormValidator.java) interface which contains a static utility method which provides an error message. 
+> * a [WebshopCheckout](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/webshopexample/WebShopCheckout) class which which [calls the static method](https://github.com/dholde/holidaydrills-Java8/blob/51f3517984e303b1cae0697deb032303a71f1cd5/src/com/holidaydrills/interfaces/webshopexample/WebShopCheckout.java#L42) in order to return a proper error message
 > * Some other interfaces which are not interesting for this specific example
 
