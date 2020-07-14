@@ -86,7 +86,7 @@ public class Car {
 }
 ``` 
 
-#### Reference to a static method
+### Reference to a static method
 The syntax for a reference to a static method is `ClassName::staticMethodName`. Here the list of cars is
 sorted by release date with help of the static `compareByReleaseDate(Car a, Car b)` method. As you can see the
 parameters are omitted when using a method reference:

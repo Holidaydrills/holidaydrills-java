@@ -1,7 +1,7 @@
 # Lambdas
-Lambda expressions (aka closures, aka anonymous methods) give a functional programming flavour to the Java language. With lambda expressions
-it is possible to create functions that don't belong to any class or instance. You can pass these functions around
-like parameters (e.g. pass them as method parameter) and reference them like they where objects.
+Lambda expressions (aka closures, aka anonymous methods) give a functional programming flavour to the Java language. 
+With lambda expressions it is possible to create functions that don't belong to any class or instance. We can pass these 
+functions around like parameters (e.g. pass them as a method parameter) and reference them like they where objects.
 
 [holidaydrills-java8 repository](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/methodreference).
 
@@ -77,7 +77,7 @@ of lines. The only thing we're actually interested in is the logic which takes o
 * For the sum it is `return valueOne + valueTwo;`
 * For the product it is `return valueOne * valueTwo;`  
 
-Instead of storing the implementation of the `FancyCalculator` interface in a variable you could also put it directly 
+Instead of storing the implementation of the `FancyCalculator` interface in a variable we could also put it directly 
 into the argument list. But still this is quite verbose: 
 ```
     // Will return 35
@@ -142,18 +142,83 @@ A full fledged lambda expression consists of:
 ```
 
 #### Lambda with a single expression
-In case your lambda expression has only one single expression, you can avoid the braces around it. In case you have a 
-return value you can also leave out the `return` keyword. The lambda expression below is semantically the same as the 
+In case the lambda expression has only one single expression, we can avoid the braces around it. In case we have a 
+return value we can also leave out the `return` keyword. The lambda expression below is semantically the same as the 
 one above:
 ```
 (a, b) ->  a + b;
 ```
 
 #### Lambda expression with only one parameter 
-In case your lambda expression only takes one parameter you can even omit the brackets that enclose the parameter list.
-So instead of `(a) -> System.out.prinlnt(a);`, you could write `a -> System.out.println(a);`
+In case the lambda expression only takes one parameter we can even omit the brackets that enclose the parameter list.
+So instead of `(a) -> System.out.prinlnt(a);`, we could write `a -> System.out.println(a);`
 
-### 
+### What is a lambda expression? - Functional Interfaces
+We've seen now some examples of lambda expression, compared them to anonymous inner classes and learned about the 
+some details about the syntax. But what is a lambda expression actually?  
+Here a short definition:
+* A lambda expression is an anonymous method. That means a method without a name.
+* A lambda expression is an implementation of a functional interface. A functional interface is an interface that 
+defines at most one abstract method (is can however contain as many default methods as you like).  
+ 
+Let's take the [FancyCalculator example](#Lambda-vs.-no-lambda) from the beginning. We defined an 
+interface that contains only one abstract method `int calculateTwoValues(int valueOne, int valueTwo);`. This method is 
+implemented once as a sum of two values and once as a product of two values:
+```
+(a,b) -> a + b; // Sum
+(a,b) -> a * b; // Product
+```
+Let's have again a look at the two points mentioned above:
+* A lambda expression is an anonymous method:
+   * We can see that the expressions have no name like usually a method would have. (Compare it to the examples above 
+   where we used anonymous inner classes to implement the FancyCalculator. There you can see that the methods have names)
+* A lambda expression is an implementation of a functional interface
+   * Because a lambda expression has no method name we cannot specify which method of an interface it should implement. 
+   That's why a lambda expression can only implement *Functional Interfaces*. These have only one abstract method, so the 
+   compiler knows exactly what method is implemented... because there is only one.  
+   * It is important that the lambda expression has the same return type and parameter list as the method that it 
+   implements. E.g. in our example above the method in FancyCalculator is `int calculateTwoValues(int valueOne, int valueTwo);` 
+   taking two integers and returning an integer. Our lambda expressions do the same, they take to integers (1,b) and 
+   return an integer.
+
+It is not possible to use a lambda expression as an implementation of an interface with more than one abstract method. 
+Let's assume the FancyCalculator would define more than one abstract method:  
+
+```
+public interface FancyCalculator {
+    int calculateTwoValues(int valueOne, int valueTwo);
+    void someOtherMethod(String input);
+}
+```
+
+If we now would try to do the following, we would get a compilation error because the compiler would not know what method 
+is implemented by our lambda expression: 
+
+```
+public int calculateTwoValues(int valueOne, int valueTwo, FancyCalculator fancyCalculator) {
+        return fancyCalculator.calculateTwoValues(valueOne, valueTwo);
+    }
+
+    // Will return 12. The lambda expression is stored in a variable before it is used.
+    public int makeSum() {
+        // Compiler does not know if this is an implementation of calculateTwoValues or someOtherMethod
+        FancyCalculator sumCalculator = (a,b) -> a + b; 
+        return calculateTwoValues(5, 7, sumCalculator);
+    }
+```
+
+Java 8 provides an annotation to mark an interface as a functional interface. If you add the annotation the compiler will 
+give you an error in case you define more than one abstract method in the interface:
+```
+@FunctionalInterface
+public interface FancyCalculator {
+    int calculateTwoValues(int valueOne, int valueTwo);
+}
+```
+
+## Good to know
+Pre defined Java functional interfaces java.util.function package
+
 
 
 
