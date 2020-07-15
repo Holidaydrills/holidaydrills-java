@@ -217,7 +217,114 @@ public interface FancyCalculator {
 ```
 
 ## Good to know
-Pre defined Java functional interfaces java.util.function package
+When we look at the `FancyCalculator` interface from the examples above we can see that the method which it defines 
+`int calculateTwoValues(int valueOne, int valueTwo);` takes two integers and returns one. It doesn't tell anything about 
+what happens (or what should happen) in the implementation. Therefore we also could have named the interface and the 
+method that it defines something like:
+```
+@FunctionalInterface
+public interface TakeTwoIntegersAndReturnOne {
+    int doSomeLogic(int valueOne, int valueTwo);
+}
+``` 
+The implementation of this interface would still look the same as above `(a, b) -> a + b`. So actually it would even be 
+better to choose a more generic name as it makes the interface more open to different implementations.  
+Despite the example above we could also provide a lot of other functional interfaces like e.g.:
+* One that takes no input parameter and returns nothing
+* One that takes one input parameter and returns nothing
+* One that takes two input parameters and returns nothing
+* One that takes an input parameter and returns something
+* ...    
+
+Luckily Java provides a lot of ready to use functional interface for all these cases. Have a look at the 
+[java.util.function](https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html) 
+package. Let's see if we can find a substitute for our `FancyCalculator` there. The package provides for a example an 
+interface that is called `BiFunction<T,U,R>` which has the following description:
+* Represents a function that accepts two arguments and produces a result
+* T - the type of the first argument to the function
+* U - the type of the second argument to the function
+* R - the type of the result of the function  
+* It has one method `apply(T t, U u)` which applies this function to the given arguments t and u.  
+
+That looks pretty much like our FancyCalculator's `int doSomeLogic(int valueOne, int valueTwo)` method. So let's try it 
+out: 
+```
+    public int calculateTwoValuesWithBiFunction(int valueOne, int valueTwo, BiFunction<Integer, Integer, Integer> myFancyFunction) {
+        return myFancyFunction.apply(valueOne, valueTwo);
+    }
+
+    // This will return 35
+    public int makeProductWithBiFunction() {
+        return calculateTwoValuesWithBiFunction(5, 7, (a,b) -> a * b);
+    }
+```
+
+And it actually works. As before we pass in two integers and return one. When you compare it to the usage of the 
+`FancyCalculator` it looks quite the same: 
+```
+    public int calculateTwoValues(int valueOne, int valueTwo, FancyCalculator fancyCalculator) {
+        return fancyCalculator.calculateTwoValues(valueOne, valueTwo);
+    }
+    
+    // Will return 35.
+    public int makeProduct() {
+        return calculateTwoValues(5, 7, (a,b) -> a * b);
+    }
+```
+The difference we have here is that we need to provide the types of our arguments and return values to the `BiFunction<T,U,R>`: 
+* We tell it that the T (the first argument) is an Integer
+* We tell it that the U (the second argument) is an Integer
+* And we tell it that R (the return value) is also of type Integer  
+So actually we should use the wrapper type of int in the example above. But Java does the work for us by wrapping and 
+unwrapping the primitive types as needed. Still, if we would to it, it would look like this: 
+```
+    public Integer calculateTwoValuesWithBiFunction(int valueOne, int valueTwo, BiFunction<Integer, Integer, Integer> myFancyFunction) {
+        return myFancyFunction.apply(valueOne, valueTwo);
+    }
+
+    // This will return 35
+    public Integer makeProductWithBiFunction() {
+        return calculateTwoValuesWithBiFunction(5, 7, (a,b) -> a * b);
+    }
+```
+
+Let's take one additional example to see how we could utilize the pre defined functional interfaces: Let's say we want 
+to pass a string and print it to the console. So actually we would need a method that:
+* Takes one argument which is in this case a string
+* Returns nothing   
+
+Looking at the list of functional interface in the [java.util.function](https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html) 
+package there is a `Consumer<T>` interface that looks exactly what we need. It has the following definition:
+* Represents an operation that accepts a single input argument and returns no result
+* T - the type of the input to the operation  
+* Method `accept(T t)` performs this operation on the given argument t.
+
+So let's try it out:
+```
+    public void testConsumer(String someone, Consumer<String> consumerFunction) {
+        consumerFunction.accept(someone);
+    }
+
+    public void printSomethingNice() {
+        Consumer<String> myConsumer = inputString -> System.out.println(String.format("%s is my best friend", inputString));
+        // Will print "Franky is my best friend"
+        testConsumer("Franky", myConsumer);
+
+        // Will print "Hey Franky, do you want some ice cream?"
+        testConsumer("do you want some ice cream?", inputString -> System.out.println(String.format("Hey Franky, %s", inputString)));
+    }
+```
+* In the first example we first store the lambda expression in a variable `myConsumer` and then pass it 
+(just for illustration). The lambda expression takes the parameter which is in this case the string "Franky", puts it 
+before " is my best friend" and prints it. The `testConsumer` executes the lambda expression at the end by calling the 
+`accept` method on it. This actually prints the string to the console.
+* In the second example we do the same except that we don't store the lambda expression in a variable, but pass define 
+it inline as a parameter.  
+
+There are a lot more pre defined functional interfaces you can use for all the different use cases that you come across.
+And in case you don't find a fitting interface just define your own like we did at the beginning of this tutorial. So go 
+ahead and try it out.
+
 
 
 
