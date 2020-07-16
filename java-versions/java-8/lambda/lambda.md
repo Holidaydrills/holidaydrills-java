@@ -3,7 +3,11 @@ Lambda expressions (aka closures, aka anonymous methods) give a functional progr
 With lambda expressions it is possible to create functions that don't belong to any class or instance. We can pass these 
 functions around like parameters (e.g. pass them as a method parameter) and reference them like they where objects.
 
-[holidaydrills-java8 repository](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/methodreference).
+## Examples
+You can find all the examples from this tutorial in the [holidaydrills-java8 repository](https://github.com/Holidaydrills/holidaydrills-Java8) 
+in the [src/main/lambdaexpressions](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/lambdaexpressions) 
+directory.
+
 
 ## What is it good for?
 * You want to pass functionality as an argument
