@@ -26,6 +26,8 @@ directory.
    * ...
 * You want to process the items within a collection in a parallel manner
 * You want to achieve the above mentioned points with concise and readable code
+* In general if you want to support functional-style operations on the elements of a stream. A typical example would be 
+map-reduce (which means transforming the elements of a stream and reduce them to one output).
    
 ## How does it work?
 ### Old way vs. new way
@@ -91,8 +93,8 @@ as a parameter, and returns a stream of elements that result by applying the pas
 taking a number as argument and returning the number multiplied by 2 (`number -> number * 2`). If you struggle with functional 
 interfaces and lambda expression have a look at the [Lambda Expressions](../lambda-expressions/lambda-expressions.md) chapter. 
 
-### General structure when applying a stream
-When working with streams there are actually always three steps which are done:  
+### Stream operations
+When working with streams there are actually always three different kinds of operations that are possible:  
 1. The stream is created by calling the [stream()](https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#stream--) 
 method on a collection. This method returns a stream of the elements that are within the collection.
 2. Optionally there can be a chain (one or more) methods applied to the stream that again return a stream which can be 
@@ -114,10 +116,46 @@ processed further. Some examples are:
    elements of the stream
    * ... 
    
+### Parallel processing of streams
+In cases where the order of processing the elements within a stream doesn't matter you can use [parallelStream()](https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#parallelStream--). 
+As the name already reveals this method returns a (possibly) parallel stream which can improve the runtime of your code. 
+Here is an example of how to use a [parallelStream()](https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#parallelStream--):   
+```Java
+    public void processParallel() {
+        List<Integer> input = List.of(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
+        // Prints the numbers in a non predictable way as they're processed in parallel.
+        // One possible output could be "7 12 18 11 20 6 19 15 17 14 9 16 3 10 2 8 1 5 4 13 "
+        input.parallelStream().forEach(number -> System.out.print(number + " "));
+    }
+```
+The following steps are performed in the code above:
+* We create a parallel stream from the `input` list
+* Each element of the list is printed to the console  
 
+If you run this code several times it is highly possible that you get a different result for each run. This you can also 
+see by the sample result which was produced when testing the code.  
+As parallel stream is created the sequence of processing is not predictable. So the possibly better runtime has the trade of 
+of not knowing the exact order of execution.
 
+### Collecting streams
+Most of the time you want to have the results of your stream operations stored in some way. Therefore the stream api provides 
+[Collectors](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html) that provide reduction operations 
+like accumulating elements into collections, summarizing elements based on some criteria, grouping elements based on on 
+some criteria and more.   
+Let's have some examples which show how Collectors work:  
 
+Collecting elements in a list (that example we already know)
+```Java
+    public List<Integer> multiplyByTwoWithStream() {
+        List<Integer> input = List.of(1,2,3,4,7);
+        List<Integer> result = input.stream().map(number -> number * 2).collect(Collectors.toList());
+        return result;
+    }
+```
 
+Collecting elements in a map 
+```Java
+```
 
 
 ## Good to know
