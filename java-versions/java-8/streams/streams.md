@@ -8,7 +8,16 @@ that were introduced with Java 8.
 Streams provide you an alternative way to iterate over collections while applying operations to the items of the 
 collection. Streams are tightly coupled with [lambda expressions](../lambda-expressions/lambda-expressions.md) which 
 makes it possible to write concise and readable code. Furthermore Java streams provide methods that enable you to process 
-the items of a collection in a parallel manner.
+the items of a collection in a parallel manner.  
+
+Streams have the following characteristics:
+* Streams do not store data as collections so but it processes elements from a source with help of a pipeline of operations.
+* Operations which are done on a Stream do not modify the source but produce a new result
+* Operations on a stream are lazy, that means not all of the elements need to be visited always (e.g. when the first element 
+matching to some predicate should be found, no further elements will be visited after this element was found)
+* Streams can possibly be infinite. There are terminal operations which allow to complete a stream like `findAny()`
+* A stream is consumed, that means that each element in a stream can be only visited once. In order to visit the elements 
+of a stream again a new stream has to be generated
 
 ## Examples
 You can find all the examples from this tutorial in the [holidaydrills-java8 repository](https://github.com/Holidaydrills/holidaydrills-Java8) 
@@ -144,18 +153,46 @@ like accumulating elements into collections, summarizing elements based on some 
 some criteria and more.   
 Let's have some examples which show how Collectors work:  
 
-Collecting elements in a list (that example we already know)
+Collecting elements in a list (that example we already know):
 ```Java
     public List<Integer> multiplyByTwoWithStream() {
         List<Integer> input = List.of(1,2,3,4,7);
         List<Integer> result = input.stream().map(number -> number * 2).collect(Collectors.toList());
         return result;
     }
+```   
+
+  
+Collecting elements in a map:
+```Java
+    public void collectInMap() {
+        // Prepare list of data
+        List<Book> persons = List.of(
+                new Book("9780062316097", "Sapiens - A Brief History of Humankind", "Yuval Noah Harari"),
+                new Book("9780141033570", "Thinking Fast Thinking Slow", "Daniel Kahneman"),
+                new Book("9780141983769", "Why We Sleep", "Matthew Walker"));
+
+        // Stream the list and collect in a map 
+        Map<String, Book> UuidToPerson = persons
+                .stream()
+                .collect(Collectors.toMap(Book::getIsbn, Function.identity()));
+
+        // Print values of the map:
+        // 9780141983769: Why We Sleep
+        // 9780141033570: Thinking Fast Thinking Slow
+        // 9780062316097: Sapiens - A Brief History of Humankind
+        for(Map.Entry<String, Book> entry : UuidToPerson.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue().getTitle());
+        }
+    }
+```     
+
+Summarizing values of a stream based on a predicate:
+```Java
+
 ```
 
-Collecting elements in a map 
-```Java
-```
+
 
 
 ## Good to know
