@@ -13,8 +13,9 @@ the items of a collection in a parallel manner.
 Streams have the following characteristics:
 * Streams do not store data as collections so but it processes elements from a source with help of a pipeline of operations.
 * Operations which are done on a Stream do not modify the source but produce a new result
-* Operations on a stream are lazy, that means not all of the elements need to be visited always (e.g. when the first element 
-matching to some predicate should be found, no further elements will be visited after this element was found)
+* Many operations on a stream are lazy (e.g. intermediate operations are lazy), that means not all of the 
+elements need to be visited if not necessary (e.g. when the first element matching to some predicate should be found, no further 
+elements will be visited after this element was found)
 * Streams can possibly be infinite. There are terminal operations which allow to complete a stream like `findAny()`
 * A stream is consumed, that means that each element in a stream can be only visited once. In order to visit the elements 
 of a stream again a new stream has to be generated
