@@ -154,7 +154,7 @@ like accumulating elements into collections, summarizing elements based on some 
 some criteria and more.   
 Let's have some examples which show how Collectors work:  
 
-Collecting elements in a list (that example we already know):
+#### Collecting elements in a list (that example we already know):
 ```Java
     public List<Integer> multiplyByTwoWithStream() {
         List<Integer> input = List.of(1,2,3,4,7);
@@ -164,36 +164,76 @@ Collecting elements in a list (that example we already know):
 ```   
 
   
-Collecting elements in a map:
+#### Collecting elements in a map:
 ```Java
     public void collectInMap() {
         // Prepare list of data
-        List<Book> persons = List.of(
+        List<Book> books = List.of(
                 new Book("9780062316097", "Sapiens - A Brief History of Humankind", "Yuval Noah Harari"),
-                new Book("9780141033570", "Thinking Fast Thinking Slow", "Daniel Kahneman"),
+                new Book("9780141033570", "Thinking, Fast and Slow", "Daniel Kahneman"),
                 new Book("9780141983769", "Why We Sleep", "Matthew Walker"));
 
-        // Stream the list and collect in a map 
-        Map<String, Book> UuidToPerson = persons
+        // Stream the list and collect in a map
+        Map<String, Book> UuidToPerson = books
                 .stream()
                 .collect(Collectors.toMap(Book::getIsbn, Function.identity()));
 
-        // Print values of the map:
-        // 9780141983769: Why We Sleep
-        // 9780141033570: Thinking Fast Thinking Slow
-        // 9780062316097: Sapiens - A Brief History of Humankind
+        // Print values of the map
         for(Map.Entry<String, Book> entry : UuidToPerson.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue().getTitle());
         }
     }
 ```     
 
-Summarizing values of a stream based on a predicate:
+#### Summarizing values:
 ```Java
+    public double getSumOfBooks() {
+        List<Book> books = List.of(
+                new Book("Sapiens - A Brief History of Humankind", 19.00),
+                new Book("Thinking, Fast and Slow", 20.00),
+                new Book("Why We Sleep", 21.00));
 
+        double sumOfBookPrices = books.stream().collect(Collectors.summingDouble(Book::getPrice));
+
+        // Will return 60.00
+        return sumOfBookPrices;
+    }
 ```
 
+#### Grouping elements: 
+```Java
+    public Map<String, List<Book>> groupBooksByAuthor() {
+        List<Book> books = List.of(
+                new Book("Yuval Noah Harari", "Sapiens - A Brief History of Humankind"),
+                new Book("Yuval Noah Harari", "Homo Deus"),
+                new Book("Yuval Noah Harari", "21 Lessons for the 21st Century"),
+                new Book("Daniel Kahneman", "Thinking, Fast and Slow"),
+                new Book("Daniel Kahneman", "Heuristics and Biases"),
+                new Book("Matthew Walker", "Why We Sleep")
+        );
 
+        // The classification function is book.getAuthor().
+        // The result of the classification function is used as key for the resulting map.
+        Map<String, List<Book>> authorToBooks = books.stream().collect(Collectors.groupingBy(Book::getAuthor));
+
+        return authorToBooks;
+    }
+```
+In the example above the following happens:
+* First a list of books is created containing author and title called `books`
+* `books` is the source for the stream that is created
+* The reduction operation [collect()](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#MutableReduction) 
+is called on the stream
+   * `collect()` is a reduction operation because it accumulates elements based on a given function into a container
+* We use the [Collectors](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html) [groupingBy()](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html#groupingBy-java.util.function.Function-) 
+method to tell that the author should be used as a key for the resulting map
+* The result is a Map that contains the author and a list of the books belonging to the author as key-value pairs. The result would 
+look something like this:
+```
+key: "Yuval Noah Harari", value: List[Book("Yuval Noah Harari", "Sapiens - A Brief History of Humankind"), Book("Yuval Noah Harari", "Homo Deus"), Book("Yuval Noah Harari", "21 Lessons for the 21st Century")],
+key: "Daniel Kahneman", value: List[Book("Daniel Kahneman", "Thinking, Fast and Slow"), Book("Daniel Kahneman", "Heuristics and Biases")],
+key: "Matthew Walker", value: List[Book("Matthew Walker", "Why We Sleep")]
+```
 
 
 ## Good to know
