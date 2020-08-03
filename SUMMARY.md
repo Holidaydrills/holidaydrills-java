@@ -6,8 +6,8 @@
     * [Interfaces](java-versions/java-8/interfaces/README.md)
       * [Interface - Default Methods](java-versions/java-8/interfaces/interface-default-methods.md)
       * [Interface - Static Methods](java-versions/java-8/interfaces/interface-static-methods.md)
-    * [Method References](java-versions/java-8/methodreferences/method-reference.md)
-    * [Optionals](java-versions/java-8/optionals/optionals.md)
-    * [Lambda Expressions](java-versions/java-8/lambda-expressions/lambda-expressions.md)
-    * [Streams](java-versions/java-8/streams/streams.md)
+    * [Method References](java-versions/java-8/method-reference.md)
+    * [Optionals](java-versions/java-8/optionals.md)
+    * [Lambda Expressions](java-versions/java-8/lambda-expressions.md)
+    * [Streams](java-versions/java-8/streams.md)
 

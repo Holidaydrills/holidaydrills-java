@@ -60,7 +60,8 @@ class AnotherClass {
 ## What is it good for?
 
 * With interface default methods you can extend your existing interfaces without breaking the users of it.  
- (Remember: a class that implements an interface must also implement all methods of that interface that are abstract. By providing a default implementation the implementing class can just use the default implementation without the need to implement that method itself)
+
+  \(Remember: a class that implements an interface must also implement all methods of that interface that are abstract. By providing a default implementation the implementing class can just use the default implementation without the need to implement that method itself\)
 
 ## Good to know
 
@@ -163,20 +164,23 @@ class YetAnotherClass {
 
 ## Use Case
 
-You're planning to open your first online shop in Finland. You've already implemented the product catalogue, some fancy 
-search capabilities and the user management. But as you want to earn money you need some kind of checkout process. You 
-think about what's needed and the first step would be to make sure, that customers provide their information in the 
-correct form. So you decide to implement a validation for the checkout form. In order to keep the code clean and make it 
-reusable in case you need to serve some other online shops with slightly different requirements you decide to have the 
-following structure:
+You're planning to open your first online shop in Finland. You've already implemented the product catalogue, some fancy search capabilities and the user management. But as you want to earn money you need some kind of checkout process. You think about what's needed and the first step would be to make sure, that customers provide their information in the correct form. So you decide to implement a validation for the checkout form. In order to keep the code clean and make it reusable in case you need to serve some other online shops with slightly different requirements you decide to have the following structure:
 
 * A [FormValidator](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/webshopexample/FormValidator.java) 
-interface which provides the generic methods that are valid across all forms in all online shops
+
+  interface which provides the generic methods that are valid across all forms in all online shops
+
 * A [FormValidatorFIN](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/webshopexample/FormValidatorFIN.java) 
-which provides an interface for your Finnish online shop \(later other country specific interfaces can follow\)
+
+  which provides an interface for your Finnish online shop \(later other country specific interfaces can follow\)
+
 * The [FormValidatorFINImpl](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/webshopexample/FormValidatorFINImpl.java) 
-class which implements the [FormValidatorFIN](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/webshopexample/FormValidatorFIN.java) interface
+
+  class which implements the [FormValidatorFIN](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/webshopexample/FormValidatorFIN.java) interface
+
 * The [WebShopCheckout](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/webshopexample/WebShopCheckout.java) 
-class which is responsible for the whole checkout process. As one of the steps of the checkout process it performs the validation by using the 
+
+  class which is responsible for the whole checkout process. As one of the steps of the checkout process it performs the validation by using the 
+
 * [FormValidatorFINImpl](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/interfaces/webshopexample/CheckoutFormValidator.java)
 

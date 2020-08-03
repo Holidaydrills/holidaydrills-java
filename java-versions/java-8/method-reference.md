@@ -1,19 +1,14 @@
 # Method References
 
-A method reference is a lambda expression that provides a clean and short syntax to refer to a method by its name. 
-You can find the examples used below in the 
-[holidaydrills-java8 repository](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/methodreference).
+A method reference is a lambda expression that provides a clean and short syntax to refer to a method by its name. You can find the examples used below in the [holidaydrills-java8 repository](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/methodreference).
 
 ## What is it good for?
 
-Lambda expressions are used to define unnamed/anonymous methods. But sometimes a lambda expression does
-nothing else than just calling another method. In that case you can make use of method references to 
-make your code cleaner and more readable.  
+Lambda expressions are used to define unnamed/anonymous methods. But sometimes a lambda expression does nothing else than just calling another method. In that case you can make use of method references to make your code cleaner and more readable.  
 **An example will make it more clear**:  
-Suppose you have a car fleet with a bunch of cars (of type Car) that are stored in a list. Now you want to find out
-what car models are contained. Therefore you extract a list that contains only the car names. Below you can see 
-an example that shows both ways - without and with the use of method reference. 
-```
+Suppose you have a car fleet with a bunch of cars \(of type Car\) that are stored in a list. Now you want to find out what car models are contained. Therefore you extract a list that contains only the car names. Below you can see an example that shows both ways - without and with the use of method reference.
+
+```text
 // Without method reference
 public List<String> getAllAvailableModelNames() {
         return cars.stream()
@@ -31,15 +26,11 @@ public List<String> getAllAvailableModelNames() {
 
 ## How does it work?
 
-There are different types of method references:
-1. Reference to a static method - the syntax is `ClassName::staticMethodName`
-1. Reference to an instance method of a particular instance: `instance::instanceMethodName`
-1. Reference to an instance method of a arbitrary instance of a particular type: `ClassName::instanceMethodName`
-1. Reference to a constructor: `ClassName::new`
+There are different types of method references: 1. Reference to a static method - the syntax is `ClassName::staticMethodName` 1. Reference to an instance method of a particular instance: `instance::instanceMethodName` 1. Reference to an instance method of a arbitrary instance of a particular type: `ClassName::instanceMethodName` 1. Reference to a constructor: `ClassName::new`
 
-Below there are examples for each of the different method reference types. They all refer to methods of the
-Car.class:
-```
+Below there are examples for each of the different method reference types. They all refer to methods of the Car.class:
+
+```text
 public class Car {
 
     private UUID id;
@@ -84,13 +75,13 @@ public class Car {
 
     // ... getters and setters below
 }
-``` 
+```
 
 ### Reference to a static method
-The syntax for a reference to a static method is `ClassName::staticMethodName`. Here the list of cars is
-sorted by release date with help of the static `compareByReleaseDate(Car a, Car b)` method. As you can see the
-parameters are omitted when using a method reference:
-```
+
+The syntax for a reference to a static method is `ClassName::staticMethodName`. Here the list of cars is sorted by release date with help of the static `compareByReleaseDate(Car a, Car b)` method. As you can see the parameters are omitted when using a method reference:
+
+```text
     public List<Car> getCarsSortedByReleaseDate() {
         cars.sort(Car::compareByReleaseDate);
         return cars;
@@ -98,8 +89,10 @@ parameters are omitted when using a method reference:
 ```
 
 ### Reference to an instance method of a particular instance
+
 The syntax for a reference of a specific instance to an instance method is `instanceName::instanceMethodName`:
-```
+
+```text
     public List<Car> getCarsSortedByModelName() {
         CarComparator carComparator = new CarComparator();
         cars.sort(carComparator::compare);
@@ -116,24 +109,26 @@ The syntax for a reference of a specific instance to an instance method is `inst
 ```
 
 ### Reference to an instance method of an arbitrary instance
-When referencing an instance method with an arbitrary instance of a class the syntax looks like this:
-`ClassName::instanceMethodName`. You can see below that this can be used in case you don't have a specific
-instance declared like e.g. when streaming some collection:
-```
+
+When referencing an instance method with an arbitrary instance of a class the syntax looks like this: `ClassName::instanceMethodName`. You can see below that this can be used in case you don't have a specific instance declared like e.g. when streaming some collection:
+
+```text
     public List<String> getAllAvailableModelNames() {
         return cars.stream()
                 .map(Car::getModelName)
                 .collect(Collectors.toList());
     }
 ```
+
 ### Reference to a constructor
-When referencing a constructor the syntax is the following `ClassName::new`. In the example below some
-new cars are added to the car fleet. As you can see the `modelName` parameter which is part of the Car 
-constructor `public Car(String modelName)` is omitted when using a method reference.
-```
+
+When referencing a constructor the syntax is the following `ClassName::new`. In the example below some new cars are added to the car fleet. As you can see the `modelName` parameter which is part of the Car constructor `public Car(String modelName)` is omitted when using a method reference.
+
+```text
     public List<Car> addNewCars(List<String> modelNames) {
         List<Car> newCars = modelNames.stream().map(Car::new).collect(Collectors.toList());
         this.cars.addAll(newCars);  
         return this.cars;
     }
 ```
+
