@@ -9,4 +9,5 @@
     * [Method References](java-versions/java-8/methodreferences/method-reference.md)
     * [Optionals](java-versions/java-8/optionals/optionals.md)
     * [Lambda Expressions](java-versions/java-8/lambda-expressions/lambda-expressions.md)
+    * [Streams](java-versions/java-8/streams/streams.md)
 

@@ -185,21 +185,6 @@ Let's have some examples which show how Collectors work:
     }
 ```     
 
-#### Summarizing values:
-```Java
-    public double getSumOfBooks() {
-        List<Book> books = List.of(
-                new Book("Sapiens - A Brief History of Humankind", 19.00),
-                new Book("Thinking, Fast and Slow", 20.00),
-                new Book("Why We Sleep", 21.00));
-
-        double sumOfBookPrices = books.stream().collect(Collectors.summingDouble(Book::getPrice));
-
-        // Will return 60.00
-        return sumOfBookPrices;
-    }
-```
-
 #### Grouping elements: 
 ```Java
     public Map<String, List<Book>> groupBooksByAuthor() {
@@ -230,10 +215,52 @@ method to tell that the author should be used as a key for the resulting map
 * The result is a Map that contains the author and a list of the books belonging to the author as key-value pairs. The result would 
 look something like this:
 ```
-key: "Yuval Noah Harari", value: List[Book("Yuval Noah Harari", "Sapiens - A Brief History of Humankind"), Book("Yuval Noah Harari", "Homo Deus"), Book("Yuval Noah Harari", "21 Lessons for the 21st Century")],
-key: "Daniel Kahneman", value: List[Book("Daniel Kahneman", "Thinking, Fast and Slow"), Book("Daniel Kahneman", "Heuristics and Biases")],
-key: "Matthew Walker", value: List[Book("Matthew Walker", "Why We Sleep")]
-```
+Map[
+    key: "Yuval Noah Harari", 
+    value: List[Book("Yuval Noah Harari", "Sapiens - A Brief History of Humankind"), Book("Yuval Noah Harari", "Homo Deus"), Book("Yuval Noah Harari", "21 Lessons for the 21st Century")],
+    key: "Daniel Kahneman", 
+    value: List[Book("Daniel Kahneman", "Thinking, Fast and Slow"), Book("Daniel Kahneman", "Heuristics and Biases")],
+    key: "Matthew Walker", 
+    value: List[Book("Matthew Walker", "Why We Sleep")
+]
+```   
 
+### Summing numbers 
+In some cases you want to sum the values of elements. There are different ways to do so.  
+
+#### Using [java.util.stream.Collectors](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html):
+```Java
+    public double getSumOfBookPricesWithCollector() {
+        List<Book> books = List.of(
+                new Book("Sapiens - A Brief History of Humankind", 19.00),
+                new Book("Thinking, Fast and Slow", 20.00),
+                new Book("Why We Sleep", 21.00));
+
+        double sumOfBookPrices = books.stream().collect(Collectors.summingDouble(Book::getPrice));
+
+        // Will return 60.00
+        return sumOfBookPrices;
+    
+```
+* The Collectors class provides also a [summingInt()](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html#summingInt-java.util.function.ToIntFunction-) 
+and a [summingLong()](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html#summingLong-java.util.function.ToLongFunction-) 
+method.
+
+### Using reduction function directly on the stream:
+```Java
+    public double getSumOfBookPricesPrices() {
+        List<Book> books = List.of(
+                new Book("Sapiens - A Brief History of Humankind", 19.00),
+                new Book("Thinking, Fast and Slow", 20.00),
+                new Book("Why We Sleep", 21.00));
+
+        double sumOfBookPrices = books.stream().mapToDouble(Book::getPrice).sum();
+
+        return sumOfBookPrices;
+    }
+```
+* There is also a [mapToInt()](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#mapToInt-java.util.function.ToIntFunction-) 
+and a [mapToLong()](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#mapToLong-java.util.function.ToLongFunction-) 
+method which you can use to produce Integer and Long streams which you can sum up then
 
 ## Good to know
