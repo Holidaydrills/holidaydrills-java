@@ -8,7 +8,7 @@ Lambda expressions are used to define unnamed/anonymous methods. But sometimes a
 **An example will make it more clear**:  
 Suppose you have a car fleet with a bunch of cars \(of type Car\) that are stored in a list. Now you want to find out what car models are contained. Therefore you extract a list that contains only the car names. Below you can see an example that shows both ways - without and with the use of method reference.
 
-```text
+```java
 // Without method reference
 public List<String> getAllAvailableModelNames() {
         return cars.stream()
@@ -30,7 +30,7 @@ There are different types of method references: 1. Reference to a static method 
 
 Below there are examples for each of the different method reference types. They all refer to methods of the Car.class:
 
-```text
+```java
 public class Car {
 
     private UUID id;
@@ -81,7 +81,7 @@ public class Car {
 
 The syntax for a reference to a static method is `ClassName::staticMethodName`. Here the list of cars is sorted by release date with help of the static `compareByReleaseDate(Car a, Car b)` method. As you can see the parameters are omitted when using a method reference:
 
-```text
+```java
     public List<Car> getCarsSortedByReleaseDate() {
         cars.sort(Car::compareByReleaseDate);
         return cars;
@@ -92,7 +92,7 @@ The syntax for a reference to a static method is `ClassName::staticMethodName`. 
 
 The syntax for a reference of a specific instance to an instance method is `instanceName::instanceMethodName`:
 
-```text
+```java
     public List<Car> getCarsSortedByModelName() {
         CarComparator carComparator = new CarComparator();
         cars.sort(carComparator::compare);
@@ -112,7 +112,7 @@ The syntax for a reference of a specific instance to an instance method is `inst
 
 When referencing an instance method with an arbitrary instance of a class the syntax looks like this: `ClassName::instanceMethodName`. You can see below that this can be used in case you don't have a specific instance declared like e.g. when streaming some collection:
 
-```text
+```java
     public List<String> getAllAvailableModelNames() {
         return cars.stream()
                 .map(Car::getModelName)
@@ -124,7 +124,7 @@ When referencing an instance method with an arbitrary instance of a class the sy
 
 When referencing a constructor the syntax is the following `ClassName::new`. In the example below some new cars are added to the car fleet. As you can see the `modelName` parameter which is part of the Car constructor `public Car(String modelName)` is omitted when using a method reference.
 
-```text
+```java
     public List<Car> addNewCars(List<String> modelNames) {
         List<Car> newCars = modelNames.stream().map(Car::new).collect(Collectors.toList());
         this.cars.addAll(newCars);  

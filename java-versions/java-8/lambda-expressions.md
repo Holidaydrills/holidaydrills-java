@@ -24,7 +24,7 @@ Let's assume we want to implement a fancy calculator that takes two integers and
 We also want to be able to pass the implementation \(so the way the two values are calculated\) as a parameter to a method. We call that method `int calculateTwoValues(int valueOne, int valueTwo, FancyCalculator fancyCalculator)`. It takes two integers and a FancyCalculator \(which represents the implementation of the interface\) as parameters.  
 Because of this special requirement we decide to provide an interface with the name `FancyCalculator` that defines only one method `int calculateTwoValues(int valueOne, int valueTwo);` which takes to integers and returns a result which is also an integer. It is important that the interface defines exactly one abstract method! Why this is we will see later. This is our interface:
 
-```text
+```java
 public interface FancyCalculator {
     int calculateTwoValues(int valueOne, int valueTwo);
 }
@@ -51,7 +51,7 @@ This interface can now be implemented in all different ways that fulfill the nee
 
     and pass the two values and the `FancyCalculator` implementation as parameters.   
 
-```text
+```java
     public int calculateTwoValues(int valueOne, int valueTwo, FancyCalculator fancyCalculator) {
             return fancyCalculator.calculateTwoValues(valueOne, valueTwo);
     }
@@ -86,7 +86,7 @@ As you can see the implementation of the interface with anonymous inner classes 
 
 Instead of storing the implementation of the `FancyCalculator` interface in a variable we could also put it directly into the argument list. But still this is quite verbose:
 
-```text
+```java
     // Will return 35
     public int makeProductTheOldWayImplementationInline() {
         return calculateTwoValues(5, 7, new FancyCalculator() {
@@ -107,7 +107,7 @@ Let's see how we can improve that with lambda expressions!
 
   instead of implementing the `FancyCalculator` interface with an anonymous inner class, we use lambda expressions  
 
-```text
+```java
     public int calculateTwoValues(int valueOne, int valueTwo, FancyCalculator fancyCalculator) {
         return fancyCalculator.calculateTwoValues(valueOne, valueTwo);
     }
@@ -153,7 +153,7 @@ A full fledged lambda expression consists of:
 
 In case the lambda expression has only one single expression, we can avoid the braces around it. In case we have a return value we can also leave out the `return` keyword. The lambda expression below is semantically the same as the one above:
 
-```text
+```java
 (a, b) ->  a + b;
 ```
 
@@ -236,7 +236,7 @@ public interface FancyCalculator {
 
 When we look at the `FancyCalculator` interface from the examples above we can see that the method which it defines `int calculateTwoValues(int valueOne, int valueTwo);` takes two integers and returns one. It doesn't tell anything about what happens \(or what should happen\) in the implementation. Therefore we also could have named the interface and the method that it defines something like:
 
-```text
+```java
 @FunctionalInterface
 public interface TakeTwoIntegersAndReturnOne {
     int doSomeLogic(int valueOne, int valueTwo);
@@ -262,7 +262,7 @@ Luckily Java provides a lot of ready to use functional interface for all these c
 
 That looks pretty much like our FancyCalculator's `int doSomeLogic(int valueOne, int valueTwo)` method. So let's try it out:
 
-```text
+```java
     public int calculateTwoValuesWithBiFunction(int valueOne, int valueTwo, BiFunction<Integer, Integer, Integer> myFancyFunction) {
         return myFancyFunction.apply(valueOne, valueTwo);
     }
@@ -275,7 +275,7 @@ That looks pretty much like our FancyCalculator's `int doSomeLogic(int valueOne,
 
 And it actually works. As before we pass in two integers and return one. When you compare it to the usage of the `FancyCalculator` it looks quite the same:
 
-```text
+```java
     public int calculateTwoValues(int valueOne, int valueTwo, FancyCalculator fancyCalculator) {
         return fancyCalculator.calculateTwoValues(valueOne, valueTwo);
     }
@@ -293,16 +293,16 @@ The difference we have here is that we need to provide the types of our argument
 * And we tell it that R \(the return value\) is also of type Integer  
   So actually we should use the wrapper type of int in the example above. But Java does the work for us by wrapping and unwrapping the primitive types as needed. Still, if we would to it, it would look like this:
 
-  ```text
-    public Integer calculateTwoValuesWithBiFunction(int valueOne, int valueTwo, BiFunction<Integer, Integer, Integer> myFancyFunction) {
-        return myFancyFunction.apply(valueOne, valueTwo);
-    }
+```java
+public Integer calculateTwoValuesWithBiFunction(int valueOne, int valueTwo, BiFunction<Integer, Integer, Integer> myFancyFunction) {
+    return myFancyFunction.apply(valueOne, valueTwo);
+}
 
-    // This will return 35
-    public Integer makeProductWithBiFunction() {
-        return calculateTwoValuesWithBiFunction(5, 7, (a,b) -> a * b);
-    }
-  ```
+// This will return 35
+public Integer makeProductWithBiFunction() {
+    return calculateTwoValuesWithBiFunction(5, 7, (a,b) -> a * b);
+}
+```
 
 Let's take one additional example to see how we could utilize the pre defined functional interfaces: Let's say we want to pass a string and print it to the console. So actually we would need a method that:
 
@@ -317,7 +317,7 @@ Looking at the list of functional interface in the [java.util.function](https://
 
 So let's try it out:
 
-```text
+```java
     public void testConsumer(String someone, Consumer<String> consumerFunction) {
         consumerFunction.accept(someone);
     }
