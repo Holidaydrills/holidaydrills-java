@@ -18,20 +18,20 @@ In general Optionals provide capabilities to protect your code from NPE and whic
 
 There are several ways how to create an optional: 1. Create an empty Optional, that does not contain any object
 
-```text
+```java
 Optional<String> optional = Optional.empty()
 ```
 
 1. Create an Optional containing an object
 
-   ```text
+   ```java
    // If aString is null, you get a NullPointerException here
    Optional<String> optional = Optional.of(aString);
    ```
 
 2. Create an Optional with an object that could potentially be null
 
-   ```text
+   ```java
    // If the string is null an empty Optional is created (no NullpointerException here)
    Optional<String> optional = Optional.ofNullable(aStringThatIsPotentiallyNull);
    ```
@@ -41,7 +41,7 @@ Optional<String> optional = Optional.empty()
 You can get values that are wrapped by an Optional in several ways. Also you can check if an Optional contains a value or not:  
 1. `get()`: Will return value in case it is present. Will throw _NoSuchElementException_ in case value is not present.
 
-```text
+```java
     // Will return the String passed with the optional if present. 
     // Otherwise will throw a NoSuchElementException
     public String unpackOptionalWithGet(Optional<String> optional) {
@@ -53,7 +53,7 @@ You can get values that are wrapped by an Optional in several ways. Also you can
 
    present.
 
-   ```text
+   ```java
     // Will return the String passed with the optional if present. 
     // Otherwise will return "Some Standard String"
     public String unpackOptionalWithOrElse(Optional<String> optional) {
@@ -65,7 +65,7 @@ You can get values that are wrapped by an Optional in several ways. Also you can
 
    of the Supplier function.
 
-   ```text
+   ```java
     // Will return String passed with the optional if present.  
     // Otherwise will return "This is some String computed with a complex logic: Hello there!"
     public String unpackOptionalWithOrElseGet(Optional<String> optional) {
@@ -83,7 +83,7 @@ You can get values that are wrapped by an Optional in several ways. Also you can
 
    exception that is provided by the Supplier function.
 
-   ```text
+   ```java
     // Will return String passed with the optional if present. 
     // Otherwise will throw an IllegalArgumentException with the message "Please provide a non null value"
     public String unpackOptionalWithOrElseThrow(Optional<String> optional) {
@@ -93,7 +93,7 @@ You can get values that are wrapped by an Optional in several ways. Also you can
 
 4. `isPresent()`: Returns _true_ if value is present, otherwise returns _false_
 
-   ```text
+   ```java
     public boolean checkIfValueIsPresent(Optional<String> optional) {
         return optional.isPresent();
     }
@@ -116,7 +116,7 @@ For more complex cases, like retrieving some value from a nested object in a saf
 Let's have some examples to demonstrate the methods:  
 Assume we have a `Customer` class that has two fields: `String firstName` which is a string and `Optional<String> lastName` which is an Optional wrapping a string.
 
-```text
+```java
 public class Customer {
     private String firstName;
     private Optional<String> lastName;
@@ -134,7 +134,7 @@ public class Customer {
 
 If we want to access the `firstName` in a save way we can use the `map()` method. It does the following: 1. It takes a mapper function as a parameter 1. It checks if the Optional contains a value. If not, it returns an empty Optional. If yes then ... 1. ... it applies the mapper function to the value that is wrapped by the Optional 1. It wraps the value in an Optional \(after the mapping function was applied\) and returns that Optional
 
-```text
+```java
     public String useMapOnNonOptionalField(Customer customer) {
         Optional<Customer> customerOptional = Optional.ofNullable(customer);
         Optional<String> firstNameOptional = customerOptional.map(Customer::getFirstName);
@@ -149,7 +149,7 @@ If we want to access the `firstName` in a save way we can use the `map()` method
 
 Now we want to get the `lastName` of the customer. Remember, this field is already an Optional of type String. What happens when we use the `map()` method here?
 
-```text
+```java
     public String useMapOnOptionalField(Customer customer) {
         Optional<Customer> customerOptional = Optional.ofNullable(customer);
         Optional<Optional<String>> lastNameOptionalOfOptional = customerOptional.map(Customer::getLastName);
@@ -191,7 +191,7 @@ As you can see `map()` and `flatMap` differ in the type they expect as a result 
 
 You can use `map()` and `flatMap()` to retrieve values form nested objects in a save way. The example below shows how `map()` is applied twice in order to first access the address of a customer and then in a second step the country field \(you can find the implementation of the customer class at the bottom\).
 
-```text
+```java
     // Will return the 'country' field of the customer if customer and address and country are not null.
     // Otherwise returns the string "Country is null"
     public String avoidNullPointerWithOptionals(Customer customer) {
@@ -242,7 +242,7 @@ This is what happens: 1. The customer is wrapped in an Optional as it could be n
 
 Without using Optional the same logic would result in less readable nested if statements:
 
-```text
+```java
     public String avoidNullPointerWithoutOptionals(Customer customer) {
         if (customer != null && customer.getAddress() != null && customer.getAddress().getCountry() != null) {
             Customer.Address address = customer.getAddress();
@@ -259,7 +259,7 @@ Without using Optional the same logic would result in less readable nested if st
 
 **Here you see the customer class that is used in the example below** \([here you can find the complete code](https://github.com/Holidaydrills/holidaydrills-Java8/blob/master/src/main/java/com/holidaydrills/optional/Customer.java):
 
-```text
+```java
 public class Customer {
 
     private String firstName;
