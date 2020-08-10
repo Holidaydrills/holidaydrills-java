@@ -11,11 +11,8 @@ Streams have the following characteristics:
 * Streams do not store data as collections so but it processes elements from a source with help of a pipeline of operations.
 * Operations which are done on a Stream do not modify the source but produce a new result
 * Many operations on a stream are lazy \(e.g. intermediate operations are lazy\), that means not all of the 
-
   elements need to be visited if not necessary \(e.g. when the first element matching to some predicate should be found, no further 
-
   elements will be visited after this element was found\)
-
 * Streams can possibly be infinite. There are terminal operations which allow to complete a stream like `findAny()`
 * A stream is consumed, that means that each element in a stream can be only visited once. In order to visit the elements 
 
@@ -71,18 +68,11 @@ When using the stream api the same would look like this:
 Here you can see how to create a stream and apply methods to it:
 
 * First we call [stream\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#stream--) on the collection 
-
   in order to create a stream
-
 * Then we call [forEach\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#forEach-java.util.function.Consumer-) 
-
   on the stream which takes a [Consumer](https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html) as a 
-
   parameter \(a Consumer is a functional interface which takes one input parameter and returns void. You can find more information 
-
-  on lambda expressions and functional interfaces in the [Lambda Expressions](lambda-expressions.md) 
-
-  chapter\).  
+  on lambda expressions and functional interfaces in the [Lambda Expressions](lambda-expressions.md) chapter\).  
 
 Let's have a look at another example where we get a list with integers and want to get a list with the same integers multiplied by 2.  
 We loop over the list and multiply each item with 2. This is how we would do it with a loop:
@@ -111,54 +101,35 @@ And the following gives the same result by using a stream:
 ```
 
 * We first call [stream\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#stream--) on the List in 
-
   order to create a stream
-
 * Then we call [map\(Function&lt;? super T,? extends R&gt; mapper\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#map-java.util.function.Function-) 
-
   on the stream. The [map\(Function&lt;? super T,? extends R&gt; mapper\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#map-java.util.function.Function-) 
-
   method takes the functional interface [Function](https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html) 
-
   as a parameter, and returns a stream of elements that result by applying the passed function. In this case the function is 
-
   taking a number as argument and returning the number multiplied by 2 \(`number -> number * 2`\). If you struggle with functional 
-
   interfaces and lambda expression have a look at the [Lambda Expressions](lambda-expressions.md) chapter. 
 
 ### Stream operations
 
 When working with streams there are actually always three different kinds of operations that are possible:  
-1. The stream is created by calling the [stream\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#stream--) method on a collection. This method returns a stream of the elements that are within the collection. 2. Optionally there can be a chain \(one or more\) methods applied to the stream that again return a stream which can be processed further. Some examples are:
-
+1. The stream is created by calling the [stream\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#stream--) method on a collection. 
+This method returns a stream of the elements that are within the collection. 2. Optionally there can be a chain \(one or more\) methods applied 
+to the stream that again return a stream which can be processed further. Some examples are:
 * [map\(Function&lt;? super T,? extends R&gt; mapper\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#map-java.util.function.Function-) which 
-
   applies a function to a stream and returns a stream of elements that result from applying that function. \(There are also map 
-
   methods with pre defined types of stream that are returned, e.g. if you want a stream of \)
-
 * [sorted\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#sorted--) which returns a stream 
-
   with the elements in sorted order
-
 * [filter\(Predicate&lt;? super T&gt; predicate\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#filter-java.util.function.Predicate-) 
-
   which returns a stream of elements that match a given predicate
-
 * ...
   1. Terminal operations that don't return a stream as a result \(but can return something else\), e.g.
 * [forEach\(Consumer&lt;? super T&gt; action\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#forEach-java.util.function.Consumer-) 
-
   which performs an operation on each element of the stream and returns nothing
-
 * [toArray\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#toArray--) which returns an array 
-
   of the elements of the stream
-
 * [count\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#count--) returns the count of the 
-
   elements of the stream
-
 * ... 
 
 ### Parallel processing of streams
@@ -245,18 +216,12 @@ In the example above the following happens:
 * First a list of books is created containing author and title called `books`
 * `books` is the source for the stream that is created
 * The reduction operation [collect\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#MutableReduction) 
-
-  is called on the stream
-
+is called on the stream
   * `collect()` is a reduction operation because it accumulates elements based on a given function into a container
-
 * We use the [Collectors](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html) [groupingBy\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html#groupingBy-java.util.function.Function-) 
-
-  method to tell that the author should be used as a key for the resulting map
-
+method to tell that the author should be used as a key for the resulting map
 * The result is a Map that contains the author and a list of the books belonging to the author as key-value pairs. The result would 
-
-  look something like this:
+look something like this:
 
   ```text
   Map[
@@ -289,10 +254,8 @@ In some cases you want to sum the values of elements. There are different ways t
 ```
 
 * The Collectors class provides also a [summingInt\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html#summingInt-java.util.function.ToIntFunction-) 
-
-  and a [summingLong\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html#summingLong-java.util.function.ToLongFunction-) 
-
-  method.
+and a [summingLong\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html#summingLong-java.util.function.ToLongFunction-) 
+method.
 
 ### Using reduction function directly on the stream:
 
@@ -310,10 +273,8 @@ In some cases you want to sum the values of elements. There are different ways t
 ```
 
 * There is also a [mapToInt\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#mapToInt-java.util.function.ToIntFunction-) 
-
-  and a [mapToLong\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#mapToLong-java.util.function.ToLongFunction-) 
-
-  method which you can use to produce Integer and Long streams which you can sum up then
+and a [mapToLong\(\)](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#mapToLong-java.util.function.ToLongFunction-) 
+method which you can use to produce Integer and Long streams which you can sum up then
 
 
 
