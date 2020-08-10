@@ -9,6 +9,6 @@
     * [Optionals](java-versions/java-8/optionals.md)
     * [Lambda Expressions](java-versions/java-8/lambda-expressions.md)
     * [Streams](java-versions/java-8/streams.md)
-  * [Java 11](java-versions/java-11/local-varibale-type-inference.md)
+  * [Java 11](java-versions/java-11/README.md)
     * [Local Variable Type Inference](java-versions/java-11/local-varibale-type-inference.md)
 
