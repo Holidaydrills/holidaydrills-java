@@ -4,8 +4,8 @@ In Java 11 local variables can be declared with the `var` syntax instead of usin
 will automatically infer the type of the variable from the initializer on the right side.  
 
 ## Examples
-You can find all the examples from this tutorial in the [holidaydrills-java11 repository](https://github.com/Holidaydrills/holidaydrills-Java8) 
-in the [LocalVariableSyntax.java](https://github.com/Holidaydrills/holidaydrills-Java11/tree/master/src/main/java/com/holidaydrills/LocalVariableSystax.java)
+You can find all the examples from this tutorial in the [holidaydrills-java11 repository](https://github.com/Holidaydrills/holidaydrills-java11) 
+in the [LocalVariableSyntax.java](https://github.com/Holidaydrills/holidaydrills-java11/blob/master/src/main/java/com/holidaydrills/LocalVariableSyntax.java)
 class.
 
 ## What is it good for?
