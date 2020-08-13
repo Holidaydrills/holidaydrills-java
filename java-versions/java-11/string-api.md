@@ -83,8 +83,6 @@ public static void stripExample() {
 }
 ```
 
-## Good to know
-
 [holidaydrills-java11 repository]: https://github.com/Holidaydrills/holidaydrills-java11/blob/master/src/main/java/com/holidaydrills/StringApiEnhancements.java
 [isBlank()]: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#isBlank()
 [lines()]: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#lines()
