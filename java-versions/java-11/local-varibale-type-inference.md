@@ -147,7 +147,8 @@ var counterOne, counterTwo, counterThree = 0;
 In some situation the compiler looks at the left hand side of an expression in order to infer the type of the right hand side 
 of the expression. Examples for that are:  
 
-* In a lambda expression the compiler looks at the left hand side of the expression in order to infer the type of the expression
+* In a lambda expression the compiler looks at the left hand side of the expression in order to infer the type of the expression 
+
 ```Java
 //This works as the compiler can infer the type of the lambda by looking at the left hand side
 Function<String, String> myValidFunction = a -> a;
@@ -157,7 +158,8 @@ var test = a -> a;
 ```  
 
 * When using method references the compiler looks at the left hand side of the expression to infer the target type. If there 
-is no target type, then we get a compiler error:
+is no target type, then we get a compiler error:  
+
 ```Java
 // Works
 BiFunction<Integer, Integer, Integer> myBifunction = Math::max;
