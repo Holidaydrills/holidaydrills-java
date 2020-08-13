@@ -81,19 +81,19 @@ public static void stripExample() {
 
 ## Good to know
 
-[holidaydrills-java11 repository](https://github.com/Holidaydrills/holidaydrills-java11/blob/master/src/main/java/com/holidaydrills/StringApiEnhancements.java).
-[isBlank()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#isBlank())
-[lines()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#lines())
-[repeat(int count)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#repeat(int))
-[strip()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#strip())
-[stripLeading()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#stripLeading())
-[stripTrailing()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#stripTrailing())
-[trim()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#trim())
-[codepoint](https://en.wikipedia.org/wiki/Code_point)
-[here](https://en.wikipedia.org/wiki/Whitespace_character)
-[isWhitespace()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Character.html#isWhitespace(int))
-[U+2005](https://www.fileformat.info/info/unicode/char/2005/index.htm)
-[separator space category](https://www.fileformat.info/info/unicode/category/Zs/list.htm)
+[holidaydrills-java11 repository]: (https://github.com/Holidaydrills/holidaydrills-java11/blob/master/src/main/java/com/holidaydrills/StringApiEnhancements.java).
+[isBlank()]: (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#isBlank())
+[lines()]: (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#lines())
+[repeat(int count)]: (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#repeat(int))
+[strip()]: (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#strip())
+[stripLeading()]: (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#stripLeading())
+[stripTrailing()]: (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#stripTrailing())
+[trim()]: (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#trim())
+[codepoint]: (https://en.wikipedia.org/wiki/Code_point)
+[here]: (https://en.wikipedia.org/wiki/Whitespace_character)
+[isWhitespace()]: (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Character.html#isWhitespace(int))
+[U+2005]: (https://www.fileformat.info/info/unicode/char/2005/index.htm)
+[separator space category]: (https://www.fileformat.info/info/unicode/category/Zs/list.htm)
 
 
 
