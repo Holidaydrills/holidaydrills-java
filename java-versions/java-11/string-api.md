@@ -7,9 +7,7 @@ Java 11 introduces some useful methods on strings. These are
 
 
 ## Examples
-You can find all the examples from this tutorial in the [holidaydrills-java8 repository](https://github.com/Holidaydrills/holidaydrills-Java8) 
-in the [holidaydrills-java8 repository](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/...)
-directory.
+You can find all the examples from this tutorial in the [holidaydrills-java11 repository]
 
 ## How does it work?
 ### isBlank()
@@ -83,6 +81,7 @@ public static void stripExample() {
 
 ## Good to know
 
+[holidaydrills-java11 repository](https://github.com/Holidaydrills/holidaydrills-java11/blob/master/src/main/java/com/holidaydrills/StringApiEnhancements.java).
 [isBlank()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#isBlank())
 [lines()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#lines())
 [repeat(int count)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#repeat(int))
