@@ -1,6 +1,7 @@
 # Method References
 
-A method reference is a lambda expression that provides a clean and short syntax to refer to a method by its name. You can find the examples used below in the [holidaydrills-java8 repository](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/methodreference).
+A method reference is a lambda expression that provides a clean and short syntax to refer to a method by its name. 
+You can find the examples used below in the [holidaydrills-java8 repository](https://github.com/Holidaydrills/holidaydrills-Java8/tree/master/src/main/java/com/holidaydrills/methodreference).
 
 ## What is it good for?
 
