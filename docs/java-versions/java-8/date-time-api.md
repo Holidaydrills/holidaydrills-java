@@ -36,6 +36,63 @@ LocalDate dateFromString = LocalDate.parse("1990, 10, 03");
 LocalDate oneMoreDate = LocalDate.from(Instant.now());
 ```
 
+### Operations on Dates
+You can perform operations on dates by adding or subtracting the different parts of a date or time. There are some
+ points that have to be considered:  
+* When you call an operation on a date object then the return value represents the changed date. The date object you
+ call the operation on is not changed.
+* You can chain the methods in order to manipulate every part of a date in one line (see last example)
+
+```Java
+LocalDateTime localDateTime = LocalDateTime.of(1990, 10,03,22,55,30);
+
+LocalDateTime newLocalDateTime = localDateTime.plusYears(2);
+// localDate is not changed, only the return value reflect the change
+System.out.println(localDateTime); // 1990-10-03T22:55:30
+System.out.println(newLocalDateTime); // 1992-10-03T22:55:30
+
+newLocalDateTime = localDateTime.plusMonths(1);
+System.out.println(newLocalDateTime); // 1990-11-03T22:55:30
+
+newLocalDateTime = localDateTime.plusDays(5);
+System.out.println(newLocalDateTime); // 1990-11-08T22:55:30
+
+newLocalDateTime = localDateTime.minusHours(7);
+System.out.println(newLocalDateTime); // 1990-10-03T15:55:30
+
+newLocalDateTime = localDateTime.plusMinutes(1);
+System.out.println(newLocalDateTime); // 1990-11-08T23:56:30
+
+newLocalDateTime = localDateTime.plusSeconds(10);
+System.out.println(newLocalDateTime); // 1990-11-08T23:55:40
+
+// Method chaining
+newLocalDateTime = localDateTime.plusYears(2).plusMonths(1).plusDays(5).minusHours(7).plusMinutes(1).plusSeconds(10);
+System.out.println(newLocalDateTime); // 1992-11-08T15:56:40
+```
+
+### Working with time zones
+The [java 8 specification][java.time package] clearly states that it is recommended to use LocalDate (LocalTime
+, LocalDateTime) and keep
+ the handling of time zones away from the application logic e.g. by handling it in the persistence (this could for
+  example be done by an ORM framework like hibernate). However sometime you're forced to use time zones explicitly
+  . In that cases you can add time zone information:   
+
+```Java
+ System.out.println(ZoneId.getAvailableZoneIds()); //[Asia/Aden, America/Cuiaba, Etc/GMT+9, Etc/GMT+8, Africa/Nairobi, ...]
+        
+ZonedDateTime zonedDateTime = ZonedDateTime.of(LocalDate.now(), LocalTime.now(), ZoneId.of("Europe/Brussels"));
+System.out.println(zonedDateTime); // 2020-08-25T08:26:46.648786+02:00[Europe/Brussels]
+```
+
+### Working with time periods
+It is also possible to define time [periods][Period] and [durations][Duration]:
+* A [Period] defines years, months and days between two points in time
+* A [Duration] defines the difference between two points in time in seconds and nanoseconds
+
+```Java
+
+```
 
 ## Good to know
 
@@ -49,4 +106,6 @@ LocalDate oneMoreDate = LocalDate.from(Instant.now());
 [parse()]: https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html#parse-java.lang.CharSequence-
 [from()]: https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html#from-java.time.temporal.TemporalAccessor-
 [CharSequence]: https://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html
-[TemporalAccessor] :https://docs.oracle.com/javase/8/docs/api/java/time/temporal/TemporalAccessor.html
+[TemporalAccessor]: https://docs.oracle.com/javase/8/docs/api/java/time/temporal/TemporalAccessor.html
+[Duration]: https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html
+[Period]: https://docs.oracle.com/javase/8/docs/api/java/time/Period.html
