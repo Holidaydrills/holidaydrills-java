@@ -88,17 +88,79 @@ System.out.println(zonedDateTime); // 2020-08-25T08:26:46.648786+02:00[Europe/Br
 ### Working with time periods
 It is also possible to define time [periods][Period] and [durations][Duration]:
 * A [Period] defines years, months and days between two points in time
-* A [Duration] defines the difference between two points in time in seconds and nanoseconds
+   * It has the format `P1Y2M3D` 
+   * *P* indicates that it is a period, *Y*, *M* and *D* indicate year, month and
+    day
+   * The numbers in the example are the number of years, months and day. In the example it would be 1 year, 3
+     months and 3 days
+* A [Duration] defines the difference between two points in time in seconds and nanoseconds   
 
+**Example for Period:**  
+In this example we do the following
+* Instantiate a LocalDate `initialDate`
+* Instantiate a LocalDate `secondDate` by adding years, months and days with the help of the [Period] class
+* Getting the period between `initialDate` and `secondDate`
+* Print the Period, which tells a period of 2 years, 3 months and 8 days.
+* Print the different parts of the period (years, months, days) separately
 ```Java
+LocalDate initialDate = LocalDate.now();
+LocalDate secondDate = initialDate.plus(Period.ofYears(2)).plus(Period.ofDays(8));
 
+Period periodBetweenDates = Period.between(initialDate, secondDate);
+System.out.println(periodBetweenDates); // P2Y0M8D
+System.out.println(periodBetweenDates.getYears()); // 2
+System.out.println(periodBetweenDates.getMonths()); // 0
+System.out.println(periodBetweenDates.getDays());  // 8
 ```
 
-## Good to know
+**Example for Duration:**  
+In this example we do the following
+* Instantiate a LocalTime `initialTime`
+* Instantiate a LocalTime `secondTime` by adding hours, minutes, seconds, milliseconds and nanoseconds
+* Getting the duration between `initialTime` and `secondTime`
+* Print the Duration, which is `PT3H5M30.123056789S`
+   * *PT* for period time
+   * *3H* for 3 hours
+   * *5M* for 5 minutes
+   * *30.123056789S* for seconds. This contains 30 seconds, 123 milliseconds and the 56789 nanoseconds we added
+```Java
+LocalTime initialTime = LocalTime.now();
+LocalTime secondTime = initialTime.plus(Duration.ofHours(3))
+                                    .plus(Duration.ofMinutes(5))
+                                    .plus(Duration.ofSeconds(30))
+                                    .plus(Duration.ofMillis(123))
+                                    .plus(Duration.ofNanos(56789));
+
+Duration durationBetweenTimes = Duration.between(initialTime, secondTime);
+System.out.println(durationBetweenTimes); // PT3H5M30.123056789S
+System.out.println(durationBetweenTimes.getSeconds()); // 11130
+```
+
+### ChronoUnit
+[ChronoUnit] is a set of date periods units that enable unit-based access to manipulate a date. You can also use
+ [ChronoUnit] for getting the number of days, months etc. between two dates. The difference to [Period] is that
+ * [ChronoUnit] calculates the total number of the specified unit (e.g. days, hours, ...)
+ * [Period] holds the period between two dates in a combined way of years, months and days  
+ 
+Here is one example which shows the difference:
+* `daysFromPeriod` return 0 as the days don't differ (the period holds the difference in the *month* part which would
+ be 3)
+* `daysFromChronoUnit` returns 91 which is the total number of days  
+
+```Java
+LocalDate initialDate = LocalDate.of(2020, 1, 1);
+LocalDate secondDate = LocalDate.of(2020, 4, 1);
+
+int daysFromPeriod = Period.between(initialDate, secondDate).getDays();
+long daysFromChronoUnit = ChronoUnit.DAYS.between(initialDate, secondDate);
+
+System.out.println(daysFromPeriod); // 0
+System.out.println(daysFromChronoUnit); // 91
+```
 
 
 [java.time package]: https://docs.oracle.com/javase/8/docs/api/java/time/package-summary.html
-[holidaydrills-java8 repository]: https://github.com/Holidaydrills/holidaydrills-java11/blob/master/src/main/java/com/holidaydrills/timepackage/TimeExamples.java
+[holidaydrills-java8 repository]: https://github.com/Holidaydrills/holidaydrills-java8/blob/master/src/main/java/com/holidaydrills/timepackage/TimeExamples.java
 [java.util.Date]: https://docs.oracle.com/javase/7/docs/api/java/util/Date.html
 [ISO8601 Standard]: https://en.wikipedia.org/wiki/ISO_8601
 [now()]: https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html#now--
@@ -109,3 +171,4 @@ It is also possible to define time [periods][Period] and [durations][Duration]:
 [TemporalAccessor]: https://docs.oracle.com/javase/8/docs/api/java/time/temporal/TemporalAccessor.html
 [Duration]: https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html
 [Period]: https://docs.oracle.com/javase/8/docs/api/java/time/Period.html
+[ChronoUnit]: https://docs.oracle.com/javase/8/docs/api/java/time/temporal/ChronoUnit.html
