@@ -1,12 +1,12 @@
 # Exceptions Basics
 
-** Definition
+## Definition
 * An exception is an event that occurs during a program execution which disrupts the the flow of the program
 * An Exception Object is created in case of an exception. It contains information about the error that occurred and
  the state of the program when it occurred. The Exception Object can be passed to the runtime system to be further
   handled  
   
-** Checked and unchecked exceptions
+## Checked and unchecked exceptions
 * **Checked Exception**: 
    * Checked exceptions are are checked at compile time
    * That means if you use a checked exception in your code, the compiler enforces you to handle that exception
@@ -20,8 +20,8 @@
    * An example for an unchecked exception is an issue in the program logic. E.g. If you divide with 0 then you get a
     *ArithmeticException*. You should rather fix that bug than handle the exception.
 
-** How does it work
-*** Lifetime of an exception
+## How does it work
+### Lifetime of an exception
 * In case of an error an exception is thrown. That means an Exception Object is created and passed to the runtime
  system (the JVM)
 * The runtime system checks in the [call stack] for a handler for the thrown exception.
@@ -30,7 +30,7 @@
 * If a handler can not be found by the runtime system, then a default exception handler takes the Exception Object
 . This default exception handler prints the exception information and terminates the program.
 
-*** Syntax of exception handling
+### Syntax of exception handling
 There is a set of keywords for exception handling. These are `try`, `catch`, `finally`, `throw`, `throws`.
 * `try`: You put all code that potentially could throw an exception into the try block
 * `catch`: The catch block follows the try block. Here is the place you specify what kind of exceptions you want to
@@ -42,6 +42,20 @@ There is a set of keywords for exception handling. These are `try`, `catch`, `fi
  have to add the throws keyword to the method signature. This indicates to the caller of the method that it has to
   handle the exception.  
   
-** Code examples
+## Code examples
+### try catch block with checked exception
+In the following example we have a try catch block with a checked exception. That means that the compiler enforces
+ you to handle that exception with a catch block.  
+   
+```Java
+public void checkedException() {
+    try {
+        FileInputStream fileInputStream = new FileInputStream("/usr/Users/Ada/testfile.txt");
+    } catch (IOException e){
+        System.out.println("Exception when reading file: " + e.getStackTrace());
+    }
+}
+```
+
  
 [call stack]: https://stackoverflow.com/questions/23981391/how-exactly-does-the-callstack-work
