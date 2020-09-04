@@ -167,6 +167,8 @@ public void handleMultipleException() throws IOException {
     }
 }
 ```
+
+### Group exceptions
  
 [call stack]: https://stackoverflow.com/questions/23981391/how-exactly-does-the-callstack-work
 [FileReader]: https://docs.oracle.com/javase/7/docs/api/java/io/FileReader.html#FileReader(java.io.File)
