@@ -43,19 +43,133 @@ There is a set of keywords for exception handling. These are `try`, `catch`, `fi
   handle the exception.  
   
 ## Code examples
-### try catch block with checked exception
-In the following example we have a try catch block with a checked exception. That means that the compiler enforces
- you to handle that exception with a catch block.  
+### try catch block   
+In the example below
+* We instantiate a [FileReader]
+* In case the file cannot be found the constructor throws an [FileNotFoundException]
+* In that case we handle the exception in a catch block by printing the stackTrace   
+
+The compiler enforces us in this case to catch the exception as the [FileNotFoundException] is a checked exception.
    
 ```Java
 public void checkedException() {
     try {
-        FileInputStream fileInputStream = new FileInputStream("/usr/Users/Ada/testfile.txt");
-    } catch (IOException e){
-        System.out.println("Exception when reading file: " + e.getStackTrace());
+        FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt");
+    } catch (FileNotFoundException e){
+        System.out.println("Dear user, the file cannot be found.");
+        e.printStackTrace();
     }
 }
 ```
 
+### throws 
+In the example below we also read a file, but this time we don't catch the exception
+* We instantiate a [FileReader]
+* In case the file cannot be found the constructor throws an [FileNotFoundException]
+* In that case the method throws an exception
+* The exception is then handled by the calling method `callThrowsException()`
+
+```Java
+public void throwsExample() throws FileNotFoundException {
+    FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt");
+}
+
+public void callThrowsException() {
+    try {
+        throwsExample();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    }
+}
+``` 
+
+### try catch finally
+In the example below we use in addition the finally block which allows us to do the necessary cleanup work
+* We instantiate the FileReader first with null, so that we can access it later in the finally block
+* In the try block we instantiate a new [FileReader] and assign it to the `fileReader` variable
+* In case the file cannot be found the constructor throws an exception which we handle by printing the stack trace
+* In the finally block we cleanup the resources by closing the `fileReader`. (The `close()`method of the fileReader
+ throws an `IOException`, that's why our `finalExample()` method must have the *throws IOException* in its delaration.)
+```Java
+public void finallyBlockExample() throws IOException {
+    FileReader fileReader = null;
+    try {
+        fileReader = new FileReader("/usr/Users/Ada/testfile.txt");
+    } catch (FileNotFoundException e){
+        System.out.println("Dear user, the file cannot be found.");
+        e.printStackTrace();
+    } finally {
+        System.out.println("Dear user, reading the file finished either successfully or due to an error.");
+        // Close the fileReader
+        if(fileReader != null) {
+            fileReader.close();
+        }
+    }
+}
+```
+
+### try with resources
+With Java 7 there comes the try-with-resources feature. This allows to pass resources to the try block which are then
+ automatically cleaned up after the try block finished (the passed resource must implement the [java.io.Closable
+ ] interface). This can be either because it successfully ended or because some exception occurred. That means that
+  the resource will always be cleaned up.  
+Here is what happens in the example below:
+* The [FileReader] is instantiated within the resource part of the try block. Because this can result in an
+ IOException we have to add a `throws IOException` to the method signature of our method `tryWithResourcesExample()`
+* Within the try block we have some logic
+* In case an exception occurs the catch block will handle it
+* The finally block will always be executed telling the user that the file read was finished either due to success or
+ because some exception occurred
+```Java
+public void tryWithResourcesExample() throws IOException {
+    try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")){
+        // Do something
+    } catch (FileNotFoundException e){
+        System.out.println("Dear user, the file cannot be found.");
+        e.printStackTrace();
+    } finally {
+        System.out.println("Dear user, reading the file finished either successfully or due to an error.");
+    }
+}
+```
+
+### Handling several exceptions
+It is also possible to handle multiple exceptions that occur. In the example below we not only instantiate a
+ [FileReader] but we also read a file with the FileReader's [read()] method.  
+This is what happens in the example below:
+* First we instantiate the `fileReader` variable by assigning null to it. This is needed in order to access the 
+* In the *try* block we first instantiate the [FileReader]. This can cause a *FileNotFoundException* which we handle in
+ the first *catch* block
+* The second thing we do in the *try* block is to read the file char by char. the [read()] method throws an
+ *IOException* which we handle with the second *catch* block.
+* In the *finally* block we inform the user that the file read had finished either due to success or because some
+ exception occurred  
+* As we used the *try-with-resource* pattern the FileReader will be closed at the end
+```Java
+public void handleMultipleException() throws IOException {
+    try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+        // Here we read the first character
+        int charAsInt = fileReader.read();
+        // In the while loop we print each character and read the next one
+        while(charAsInt != -1) {
+            System.out.println((char)charAsInt);
+            charAsInt = fileReader.read();
+            fileReader.read();
+        }
+    } catch (FileNotFoundException e){
+        System.out.println("Dear user, the file cannot be found.");
+        e.printStackTrace();
+    } catch (IOException e) {
+        System.out.println("Dear user, we could not read the file.");
+        e.printStackTrace();
+    } finally {
+        System.out.println("Dear user, reading the file finished either successfully or due to an error.");
+    }
+}
+```
  
 [call stack]: https://stackoverflow.com/questions/23981391/how-exactly-does-the-callstack-work
+[FileReader]: https://docs.oracle.com/javase/7/docs/api/java/io/FileReader.html#FileReader(java.io.File)
+[FileNotFoundException]: https://docs.oracle.com/javase/7/docs/api/java/io/FileNotFoundException.html
+[read()]: https://docs.oracle.com/javase/8/docs/api/java/io/InputStreamReader.html#read--
+[java.io.Closable]: https://docs.oracle.com/javase/8/docs/api/java/io/Closeable.html
