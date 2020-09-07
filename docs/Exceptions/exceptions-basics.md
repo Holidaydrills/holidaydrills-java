@@ -146,7 +146,7 @@ This is what happens in the example below:
  exception occurred  
 * As we used the *try-with-resource* pattern the FileReader will be closed at the end
 ```Java
-public void handleMultipleException() throws IOException {
+public void handleMultipleExceptionOfSameHierarchy() throws IOException {
     try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
         // Here we read the first character
         int charAsInt = fileReader.read();
@@ -168,10 +168,77 @@ public void handleMultipleException() throws IOException {
 }
 ```
 
-### Group exceptions
+### Handling several exceptions of the same hierarchy 
+In the example above we handled a [FileNotFoundException] and an [IOException] separately. This is because we wanted
+ to provide a specific user message for each exception. But in this example it would be possible to handle both
+  exceptions at once by only handling the [IOException]. This is because both exceptions are in the same class
+   hierarchy. To be specific the [FileNotFoundException] is a subclass of [IOException].  
+Let's see how this would look like with an example: 
+* Here we only handle the *IOException* which implicitly handles its subclass *FileNotFoundException* 
+```Java
+public void handleExceptionsWithSameHierarchy() {
+    try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+        // Here we read the first character
+        int charAsInt = fileReader.read();
+        // In the while loop we print each character and read the next one
+        while(charAsInt != -1) {
+            System.out.println((char)charAsInt);
+            charAsInt = fileReader.read();
+            fileReader.read();
+        }
+    } catch (IOException e) {
+        System.out.println("Dear user, something went wrong while opening and reading the file.");
+        e.printStackTrace();
+    } finally {
+        System.out.println("Dear user, reading the file finished either successfully or due to an error.");
+    }
+}
+```
+
+### Handling several exceptions of different class hierarchies
+It's also possible to handle exceptions of different class hierarchies in one single *catch* block.  
+Let's have a look at an example:  
+* First we instantiate a [FileReader] in the *try-with-resource* block. For that we need to add the *IOException* to
+ the method signature as the closing of the *fileRader* can cause an *IOException*
+* Within the try block we get a class by it's name. This can potentially throw a [ClassNotFoundException]
+* In the catch block we handle both exceptions
+* In the finally block we tell the user that everything went well
+```Java
+public void handleMultipleExceptionsInOneCatchBlock() throws IOException {
+    try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+        Class someClass = Class.forName("com.holidaydrills.java.exceptionhandling.ExceptionExamples");
+        // Do something ...
+    } catch (FileNotFoundException | ClassNotFoundException e){
+        System.out.println("Dear user, something went wrong");
+        e.printStackTrace();
+    } finally {
+        System.out.println("Dear user, the file with the name 'testfile.txt' and the class with the name 'ExceptionExamples' could be found.");
+    }
+}
+```  
+
+We can do the same as above by handling the exceptions in two separate *catch* blocks:
+```Java
+public void handleMultipleExceptionsInSeparateCatchBlocks() throws IOException {
+    try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+        Class someClass = Class.forName("com.holidaydrills.java.exceptionhandling.ExceptionExamples");
+        // Do something ...
+    } catch (FileNotFoundException e){
+        System.out.println("Dear user, the file with the name 'testfile.txt' could not be found.");
+        e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+        System.out.println("Dear user, the class with the name 'ExceptionExamples' could not be found.");
+        e.printStackTrace();
+    } finally {
+        System.out.println("Dear user, the file with the name 'testfile.txt' and the class with the name 'ExceptionExamples' could be found.");
+    }
+}
+```
  
 [call stack]: https://stackoverflow.com/questions/23981391/how-exactly-does-the-callstack-work
-[FileReader]: https://docs.oracle.com/javase/7/docs/api/java/io/FileReader.html#FileReader(java.io.File)
-[FileNotFoundException]: https://docs.oracle.com/javase/7/docs/api/java/io/FileNotFoundException.html
-[read()]: https://docs.oracle.com/javase/8/docs/api/java/io/InputStreamReader.html#read--
-[java.io.Closable]: https://docs.oracle.com/javase/8/docs/api/java/io/Closeable.html
+[FileReader]: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/FileReader.html
+[FileNotFoundException]: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/FileNotFoundException.html
+[read()]: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/InputStreamReader.html#read()
+[java.io.Closable]: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/Closeable.html
+[IOException]: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/IOException.html
+[ClassNotFoundException]: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/ClassNotFoundException.html

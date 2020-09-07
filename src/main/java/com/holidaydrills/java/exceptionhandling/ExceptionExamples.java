@@ -59,7 +59,7 @@ public class ExceptionExamples {
         }
     }
 
-    public void handleMultipleException() throws IOException {
+    public void handleMultipleExceptionOfSameHierarchy() throws IOException {
         try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
             // Here we read the first character
             int charAsInt = fileReader.read();
@@ -77,6 +77,51 @@ public class ExceptionExamples {
             e.printStackTrace();
         } finally {
             System.out.println("Dear user, reading the file finished either successfully or due to an error.");
+        }
+    }
+
+    public void handleExceptionsWithSameHierarchy() {
+        try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+            // Here we read the first character
+            int charAsInt = fileReader.read();
+            // In the while loop we print each character and read the next one
+            while(charAsInt != -1) {
+                System.out.println((char)charAsInt);
+                charAsInt = fileReader.read();
+                fileReader.read();
+            }
+        } catch (IOException e) {
+            System.out.println("Dear user, something went wrong while opening and reading the file.");
+            e.printStackTrace();
+        } finally {
+            System.out.println("Dear user, reading the file finished either successfully or due to an error.");
+        }
+    }
+
+    public void handleMultipleExceptionsInOneCatchBlock() throws IOException {
+        try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+            Class someClass = Class.forName("com.holidaydrills.java.exceptionhandling.ExceptionExamples");
+            // Do something ...
+        } catch (FileNotFoundException | ClassNotFoundException e){
+            System.out.println("Dear user, something went wrong");
+            e.printStackTrace();
+        } finally {
+            System.out.println("Dear user, the file with the name 'testfile.txt' and the class with the name 'ExceptionExamples' could be found.");
+        }
+    }
+
+    public void handleMultipleExceptionsInSeparateCatchBlocks() throws IOException {
+        try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+            Class someClass = Class.forName("com.holidaydrills.java.exceptionhandling.ExceptionExamples");
+            // Do something ...
+        } catch (FileNotFoundException e){
+            System.out.println("Dear user, the file with the name 'testfile.txt' could not be found.");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("Dear user, the class with the name 'ExceptionExamples' could not be found.");
+            e.printStackTrace();
+        } finally {
+            System.out.println("Dear user, the file with the name 'testfile.txt' and the class with the name 'ExceptionExamples' could be found.");
         }
     }
 
