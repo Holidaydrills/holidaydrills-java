@@ -92,7 +92,7 @@ In the example below we use in addition the finally block which allows us to do 
  throws an `IOException`, that's why our `finalExample()` method must have the *throws IOException* in its delaration
  .)  
  
-
+ 
 ```Java
 public void finallyBlockExample() throws IOException {
     FileReader fileReader = null;
@@ -124,6 +124,7 @@ Here is what happens in the example below:
 * The finally block will always be executed telling the user that the file read was finished either due to success or
  because some exception occurred  
  
+
 
 ```Java
 public void tryWithResourcesExample() throws IOException {
