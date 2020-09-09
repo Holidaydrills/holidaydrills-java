@@ -89,7 +89,10 @@ In the example below we use in addition the finally block which allows us to do 
 * In the try block we instantiate a new [FileReader] and assign it to the `fileReader` variable
 * In case the file cannot be found the constructor throws an exception which we handle by printing the stack trace
 * In the finally block we cleanup the resources by closing the `fileReader`. (The `close()`method of the fileReader
- throws an `IOException`, that's why our `finalExample()` method must have the *throws IOException* in its delaration.)
+ throws an `IOException`, that's why our `finalExample()` method must have the *throws IOException* in its delaration
+ .)  
+ 
+ 
 ```Java
 public void finallyBlockExample() throws IOException {
     FileReader fileReader = null;
@@ -119,7 +122,10 @@ Here is what happens in the example below:
 * Within the try block we have some logic
 * In case an exception occurs the catch block will handle it
 * The finally block will always be executed telling the user that the file read was finished either due to success or
- because some exception occurred
+ because some exception occurred  
+ 
+
+
 ```Java
 public void tryWithResourcesExample() throws IOException {
     try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")){
@@ -144,7 +150,9 @@ This is what happens in the example below:
  *IOException* which we handle with the second *catch* block.
 * In the *finally* block we inform the user that the file read had finished either due to success or because some
  exception occurred  
-* As we used the *try-with-resource* pattern the FileReader will be closed at the end
+* As we used the *try-with-resource* pattern the FileReader will be closed at the end  
+
+
 ```Java
 public void handleMultipleExceptionOfSameHierarchy() throws IOException {
     try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
@@ -174,7 +182,9 @@ In the example above we handled a [FileNotFoundException] and an [IOException] s
   exceptions at once by only handling the [IOException]. This is because both exceptions are in the same class
    hierarchy. To be specific the [FileNotFoundException] is a subclass of [IOException].  
 Let's see how this would look like with an example: 
-* Here we only handle the *IOException* which implicitly handles its subclass *FileNotFoundException* 
+* Here we only handle the *IOException* which implicitly handles its subclass *FileNotFoundException*  
+
+ 
 ```Java
 public void handleMultipleExceptionOfSameHierarchy(String filePath) throws IOException {
     try (FileReader fileReader = new FileReader(filePath)) {
@@ -204,7 +214,9 @@ Let's have a look at an example:
  the method signature as the closing of the *fileRader* can cause an *IOException*
 * Within the try block we get a class by it's name. This can potentially throw a [ClassNotFoundException]
 * In the catch block we handle both exceptions
-* In the finally block we tell the user that everything went well
+* In the finally block we tell the user that everything went well  
+
+
 ```Java
 public void handleMultipleExceptionsInOneCatchBlock() throws IOException {
     try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
@@ -219,7 +231,9 @@ public void handleMultipleExceptionsInOneCatchBlock() throws IOException {
 }
 ```  
 
-We can do the same as above by handling the exceptions in two separate *catch* blocks:
+We can do the same as above by handling the exceptions in two separate *catch* blocks:  
+
+
 ```Java
 public void handleMultipleExceptionsInSeparateCatchBlocks(String filePath) throws IOException {
     try (FileReader fileReader = new FileReader(filePath)) {
