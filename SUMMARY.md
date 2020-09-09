@@ -13,4 +13,5 @@
   * [Java 11](docs/java-versions/java-11/README.md)
     * [Local Variable Type Inference](docs/java-versions/java-11/local-varibale-type-inference.md)
     * [String Api Enhancements](docs/java-versions/java-11/string-api.md)
+* [Exceptions](docs/exceptions/exceptions-basics.md)
 
