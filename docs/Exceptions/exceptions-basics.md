@@ -176,18 +176,20 @@ In the example above we handled a [FileNotFoundException] and an [IOException] s
 Let's see how this would look like with an example: 
 * Here we only handle the *IOException* which implicitly handles its subclass *FileNotFoundException* 
 ```Java
-public void handleExceptionsWithSameHierarchy() {
-    try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+public void handleMultipleExceptionOfSameHierarchy(String filePath) throws IOException {
+    try (FileReader fileReader = new FileReader(filePath)) {
         // Here we read the first character
         int charAsInt = fileReader.read();
         // In the while loop we print each character and read the next one
         while(charAsInt != -1) {
-            System.out.println((char)charAsInt);
+            System.out.print((char)charAsInt);
             charAsInt = fileReader.read();
-            fileReader.read();
         }
+    } catch (FileNotFoundException e){
+        System.out.println("Dear user, the file cannot be found.");
+        e.printStackTrace();
     } catch (IOException e) {
-        System.out.println("Dear user, something went wrong while opening and reading the file.");
+        System.out.println("Dear user, we could not read the file.");
         e.printStackTrace();
     } finally {
         System.out.println("Dear user, reading the file finished either successfully or due to an error.");
@@ -219,8 +221,8 @@ public void handleMultipleExceptionsInOneCatchBlock() throws IOException {
 
 We can do the same as above by handling the exceptions in two separate *catch* blocks:
 ```Java
-public void handleMultipleExceptionsInSeparateCatchBlocks() throws IOException {
-    try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+public void handleMultipleExceptionsInSeparateCatchBlocks(String filePath) throws IOException {
+    try (FileReader fileReader = new FileReader(filePath)) {
         Class someClass = Class.forName("com.holidaydrills.java.exceptionhandling.ExceptionExamples");
         // Do something ...
     } catch (FileNotFoundException e){
@@ -230,7 +232,7 @@ public void handleMultipleExceptionsInSeparateCatchBlocks() throws IOException {
         System.out.println("Dear user, the class with the name 'ExceptionExamples' could not be found.");
         e.printStackTrace();
     } finally {
-        System.out.println("Dear user, the file with the name 'testfile.txt' and the class with the name 'ExceptionExamples' could be found.");
+        System.out.println("Dear user, found successfully the file with the name 'testfile.txt' and the class with the name 'ExceptionExamples'.");
     }
 }
 ```

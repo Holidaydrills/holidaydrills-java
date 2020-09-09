@@ -1,18 +1,15 @@
 package com.holidaydrills.java.exceptionhandling;
 
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class ExceptionExamples {
 
     public void checkedException() {
         try {
-            FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt");
+            FileReader fileReader = new FileReader("./testfile.txt");
         } catch (FileNotFoundException e){
             System.out.println("Dear user, the file cannot be found.");
             e.printStackTrace();
@@ -29,13 +26,13 @@ public class ExceptionExamples {
     }
 
     public void throwsExample() throws FileNotFoundException {
-        FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt");
+        FileReader fileReader = new FileReader("./testfile.txt");
     }
 
-    public void finallyBlockExample() throws IOException {
+    public void finallyBlockExample(String filePath) throws IOException {
         FileReader fileReader = null;
         try {
-            fileReader = new FileReader("/usr/Users/Ada/testfile.txt");
+            fileReader = new FileReader(filePath);
         } catch (FileNotFoundException e){
             System.out.println("Dear user, the file cannot be found.");
             e.printStackTrace();
@@ -49,7 +46,7 @@ public class ExceptionExamples {
     }
 
     public void tryWithResourcesExample() throws IOException {
-        try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")){
+        try (FileReader fileReader = new FileReader("./testfile.txt")){
             // Do something
         } catch (FileNotFoundException e){
             System.out.println("Dear user, the file cannot be found.");
@@ -59,15 +56,14 @@ public class ExceptionExamples {
         }
     }
 
-    public void handleMultipleExceptionOfSameHierarchy() throws IOException {
-        try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+    public void handleMultipleExceptionOfSameHierarchy(String filePath) throws IOException {
+        try (FileReader fileReader = new FileReader(filePath)) {
             // Here we read the first character
             int charAsInt = fileReader.read();
             // In the while loop we print each character and read the next one
             while(charAsInt != -1) {
-                System.out.println((char)charAsInt);
+                System.out.print((char)charAsInt);
                 charAsInt = fileReader.read();
-                fileReader.read();
             }
         } catch (FileNotFoundException e){
             System.out.println("Dear user, the file cannot be found.");
@@ -81,7 +77,7 @@ public class ExceptionExamples {
     }
 
     public void handleExceptionsWithSameHierarchy() {
-        try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+        try (FileReader fileReader = new FileReader("./testfile.txt")) {
             // Here we read the first character
             int charAsInt = fileReader.read();
             // In the while loop we print each character and read the next one
@@ -99,7 +95,7 @@ public class ExceptionExamples {
     }
 
     public void handleMultipleExceptionsInOneCatchBlock() throws IOException {
-        try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+        try (FileReader fileReader = new FileReader("./testfile.txt")) {
             Class someClass = Class.forName("com.holidaydrills.java.exceptionhandling.ExceptionExamples");
             // Do something ...
         } catch (FileNotFoundException | ClassNotFoundException e){
@@ -110,8 +106,8 @@ public class ExceptionExamples {
         }
     }
 
-    public void handleMultipleExceptionsInSeparateCatchBlocks() throws IOException {
-        try (FileReader fileReader = new FileReader("/usr/Users/Ada/testfile.txt")) {
+    public void handleMultipleExceptionsInSeparateCatchBlocks(String filePath) throws IOException {
+        try (FileReader fileReader = new FileReader(filePath)) {
             Class someClass = Class.forName("com.holidaydrills.java.exceptionhandling.ExceptionExamples");
             // Do something ...
         } catch (FileNotFoundException e){
@@ -121,7 +117,7 @@ public class ExceptionExamples {
             System.out.println("Dear user, the class with the name 'ExceptionExamples' could not be found.");
             e.printStackTrace();
         } finally {
-            System.out.println("Dear user, the file with the name 'testfile.txt' and the class with the name 'ExceptionExamples' could be found.");
+            System.out.println("Dear user, found successfully the file with the name 'testfile.txt' and the class with the name 'ExceptionExamples'.");
         }
     }
 
