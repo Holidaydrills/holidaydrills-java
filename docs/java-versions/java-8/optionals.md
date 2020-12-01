@@ -132,7 +132,12 @@ public class Customer {
 
 #### map\(\)
 
-If we want to access the `firstName` in a save way we can use the `map()` method. It does the following: 1. It takes a mapper function as a parameter 1. It checks if the Optional contains a value. If not, it returns an empty Optional. If yes then ... 1. ... it applies the mapper function to the value that is wrapped by the Optional 1. It wraps the value in an Optional \(after the mapping function was applied\) and returns that Optional
+If we want to access the `firstName` in a save way we can use the `map()` method. It does the following: 
+1. It takes a mapper function as a parameter 
+1. It checks if the Optional contains a value. If not, it returns an empty Optional. If yes then ... 
+1. ... it applies the mapper function to the value that is wrapped by the Optional 
+1. It wraps the value in an Optional \(after the mapping function was applied\) and returns that Optional. 
+
 
 ```java
     public String useMapOnNonOptionalField(Customer customer) {
