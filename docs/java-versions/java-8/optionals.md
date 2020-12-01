@@ -132,7 +132,8 @@ public class Customer {
 
 #### map\(\)
 
-If we want to access the `firstName` in a save way we can use the `map()` method. It does the following: 
+If we want to access the `firstName` in a save way we can use the `map()` method. It does the following:  
+
 1. It takes a mapper function as a parameter 
 1. It checks if the Optional contains a value. If not, it returns an empty Optional. If yes then ... 
 1. ... it applies the mapper function to the value that is wrapped by the Optional 
@@ -178,7 +179,11 @@ As you see it is quite of an overhead when using the `map()` method on fields th
 
 #### flatMap\(\)
 
-In case a value that we want to retrieve is already wrapped in an Optional, we can use the `flatMap()` method. It does the following: 1. It takes a mapper function as a parameter 1. It checks if the Optional contains a value. If not, it returns an empty Optional. If yes then ... 1. ... it applies the mapper function to the value that is wrapped by the Optional \(the value has to be an Optional itself\) 1. It returns the value \(which is in that case already and Optional\) after the mapping function was applied
+In case a value that we want to retrieve is already wrapped in an Optional, we can use the `flatMap()` method. It does the following: 
+1. It takes a mapper function as a parameter 
+1. It checks if the Optional contains a value. If not, it returns an empty Optional. If yes then ... 
+1. ... it applies the mapper function to the value that is wrapped by the Optional \(the value has to be an Optional itself\) 
+1. It returns the value \(which is in that case already and Optional\) after the mapping function was applied
 
 #### Difference between map\(\) and flatMap\(\)
 
