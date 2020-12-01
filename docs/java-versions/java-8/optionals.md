@@ -209,44 +209,19 @@ You can use `map()` and `flatMap()` to retrieve values form nested objects in a 
     }
 ```
 
-This is what happens: 1. The customer is wrapped in an Optional as it could be null 1. `map()` is called on the customerOptional
+This is what happens: 
+1. The customer is wrapped in an Optional as it could be null 
+1. `map()` is called on the customerOptional
+   1. The `map()` method checks if the Optional contains a value. If it does not contain a value it returns an empty Optional \(see \[map\(\) step 2\]\(\#map\(\)\)
+   1. If it contains a value, the mapper function is applied to that value \(the value in that case is the customer and the mapper function it `getAddress()`\)
+   1. The result of the mapper function is wrapped in an Optional \([see map\(\) step 3 and 4](optionals.md#map%28%29)\) If it contains a value it wraps the value \(in this case the address objects\) in an Optional and returns it \(see \[map\(\) step 3 and 4\]\(\#map\(\)\)
+1. Now the `map()` method is applied to the Optional containing the address \(this is the Optional returned in the last step\)
+   1. The `map()` method checks if the Optional contains a value \(the country\). If it does not contain a value it returns an empty Optional
+   1. If it contains a value, the mapper function is applied to that value \(the value in that case is the address and the mapper function it `getCountry()`\)
+   1. The result of the mapper function \(which is either null or a string with the country name\) is wrapped in an Optional and returned
+1. The `orElse` method is called on the Optional that is returned by the last step. If it contains a value, then the value is returned. Otherwise "Country is null" is returned.  
 
-* The `map()` method checks if the Optional contains a value. If it does not contain a value it returns an empty 
-
-  Optional \(see \[map\(\) step 2\]\(\#map\(\)\)
-
-* If it contains a value, the mapper function is applied to that value \(the value in that case is the customer and 
-
-  the mapper function it `getAddress()`\)
-
-* The result of the mapper function is wrapped in an Optional \([see map\(\) step 3 and 4](optionals.md#map%28%29)\)
-
-  If it contains a value it wraps the value \(in this case the address objects\) in an 
-
-  Optional and returns it \(see \[map\(\) step 3 and 4\]\(\#map\(\)\)
-
-  1. Now the `map()` method is applied to the Optional containing the address \(this is the Optional returned in the last
-
-     step\)
-
-* The `map()` method checks if the Optional contains a value \(the country\). If it does not contain a value it 
-
-  returns an empty Optional
-
-* If it contains a value, the mapper function is applied to that value \(the value in that case is the address and 
-
-  the mapper function it `getCountry()`\)
-
-* The result of the mapper function \(which is either null or a string with the country name\) is wrapped in an 
-
-  Optional and returned
-
-  1. The `orElse` method is called on the Optional that is returned by the last step. If it contains a value, then the 
-
-     value is returned. Otherwise "Country is null" is returned.
-
-Without using Optional the same logic would result in less readable nested if statements:
-
+Without using Optional the same logic would result in less readable nested if statements: 
 ```java
     public String avoidNullPointerWithoutOptionals(Customer customer) {
         if (customer != null && customer.getAddress() != null && customer.getAddress().getCountry() != null) {
